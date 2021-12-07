@@ -1,0 +1,1040 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						20,
+						21,
+						22,
+						23,
+						24,
+						25
+					],
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.17"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						26,
+						27,
+						28,
+						29,
+						30,
+						31,
+						32,
+						33,
+						34
+					]
+				},
+				{
+					"build" : "dependencies",
+					"childIndexes" : 
+					[
+						2,
+						3,
+						4,
+						5
+					],
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.17"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "dependencies"
+				},
+				{
+					"build" : "dependencies/tbb",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.1"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "dependencies/tbb",
+					"targetIndexes" : 
+					[
+						35,
+						36
+					]
+				},
+				{
+					"build" : "dependencies/PccLibHevcParser",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.2"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 2,
+					"source" : "dependencies/PccLibHevcParser",
+					"targetIndexes" : 
+					[
+						21
+					]
+				},
+				{
+					"build" : "dependencies/PccLibAvcParser",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.2"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 3,
+					"source" : "dependencies/PccLibAvcParser",
+					"targetIndexes" : 
+					[
+						12
+					]
+				},
+				{
+					"build" : "dependencies/PccLibShvcParser",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.2"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 4,
+					"source" : "dependencies/PccLibShvcParser",
+					"targetIndexes" : 
+					[
+						23
+					]
+				},
+				{
+					"build" : "source/lib/PccLibVideoDecoder",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 5,
+					"source" : "source/lib/PccLibVideoDecoder",
+					"targetIndexes" : 
+					[
+						24
+					]
+				},
+				{
+					"build" : "source/lib/PccLibVideoEncoder",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 6,
+					"source" : "source/lib/PccLibVideoEncoder",
+					"targetIndexes" : 
+					[
+						25
+					]
+				},
+				{
+					"build" : "source/lib/PccLibColorConverter",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 7,
+					"source" : "source/lib/PccLibColorConverter",
+					"targetIndexes" : 
+					[
+						16
+					]
+				},
+				{
+					"build" : "source/lib/PccLibBitstreamCommon",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 8,
+					"source" : "source/lib/PccLibBitstreamCommon",
+					"targetIndexes" : 
+					[
+						13
+					]
+				},
+				{
+					"build" : "source/lib/PccLibBitstreamWriter",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 9,
+					"source" : "source/lib/PccLibBitstreamWriter",
+					"targetIndexes" : 
+					[
+						15
+					]
+				},
+				{
+					"build" : "source/lib/PccLibBitstreamReader",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 10,
+					"source" : "source/lib/PccLibBitstreamReader",
+					"targetIndexes" : 
+					[
+						14
+					]
+				},
+				{
+					"build" : "source/lib/PccLibCommon",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 11,
+					"source" : "source/lib/PccLibCommon",
+					"targetIndexes" : 
+					[
+						17
+					]
+				},
+				{
+					"build" : "source/lib/PccLibDecoder",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 12,
+					"source" : "source/lib/PccLibDecoder",
+					"targetIndexes" : 
+					[
+						19
+					]
+				},
+				{
+					"build" : "source/lib/PccLibEncoder",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 13,
+					"source" : "source/lib/PccLibEncoder",
+					"targetIndexes" : 
+					[
+						20
+					]
+				},
+				{
+					"build" : "source/lib/PccLibMetrics",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 14,
+					"source" : "source/lib/PccLibMetrics",
+					"targetIndexes" : 
+					[
+						22
+					]
+				},
+				{
+					"build" : "source/lib/PccLibConformance",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 15,
+					"source" : "source/lib/PccLibConformance",
+					"targetIndexes" : 
+					[
+						18
+					]
+				},
+				{
+					"build" : "source/app/PccAppParser",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 16,
+					"source" : "source/app/PccAppParser",
+					"targetIndexes" : 
+					[
+						9
+					]
+				},
+				{
+					"build" : "source/app/PccAppEncoder",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 17,
+					"source" : "source/app/PccAppEncoder",
+					"targetIndexes" : 
+					[
+						6
+					]
+				},
+				{
+					"build" : "source/app/PccAppDecoder",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 18,
+					"source" : "source/app/PccAppDecoder",
+					"targetIndexes" : 
+					[
+						5
+					]
+				},
+				{
+					"build" : "source/app/PccAppMetrics",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 19,
+					"source" : "source/app/PccAppMetrics",
+					"targetIndexes" : 
+					[
+						7
+					]
+				},
+				{
+					"build" : "source/app/PccAppConformance",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 20,
+					"source" : "source/app/PccAppConformance",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"build" : "source/app/PccAppVideoEncoder",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 21,
+					"source" : "source/app/PccAppVideoEncoder",
+					"targetIndexes" : 
+					[
+						11
+					]
+				},
+				{
+					"build" : "source/app/PccAppVideoDecoder",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 22,
+					"source" : "source/app/PccAppVideoDecoder",
+					"targetIndexes" : 
+					[
+						10
+					]
+				},
+				{
+					"build" : "source/app/PccAppColorConverter",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.17"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 23,
+					"source" : "source/app/PccAppColorConverter",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"build" : "source/app/PccAppNormalGenerator",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 24,
+					"source" : "source/app/PccAppNormalGenerator",
+					"targetIndexes" : 
+					[
+						8
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						20,
+						21,
+						22,
+						23,
+						24
+					],
+					"directoryIndexes" : 
+					[
+						0,
+						1
+					],
+					"name" : "TMC2",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						26,
+						27,
+						28,
+						29,
+						30,
+						31,
+						32,
+						33,
+						34
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						2
+					],
+					"name" : "tbb",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						35,
+						36
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						3
+					],
+					"name" : "PccLibHevcParser",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						21
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						4
+					],
+					"name" : "PccLibAvcParser",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						12
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						5
+					],
+					"name" : "PccLibShvcParser",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						23
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						6
+					],
+					"name" : "PccLibVideoDecoder",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						24
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						7
+					],
+					"name" : "PccLibVideoEncoder",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						25
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						8
+					],
+					"name" : "PccLibColorConverter",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						16
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						9
+					],
+					"name" : "PccLibBitstreamCommon",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						13
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						10
+					],
+					"name" : "PccLibBitstreamWriter",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						15
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						11
+					],
+					"name" : "PccLibBitstreamReader",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						14
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						12
+					],
+					"name" : "PccLibCommon",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						17
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						13
+					],
+					"name" : "PccLibDecoder",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						19
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						14
+					],
+					"name" : "PccLibEncoder",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						20
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						15
+					],
+					"name" : "PccLibMetrics",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						22
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						16
+					],
+					"name" : "PccLibConformance",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						18
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						17
+					],
+					"name" : "PccAppParser",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						9
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						18
+					],
+					"name" : "PccAppEncoder",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						6
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						19
+					],
+					"name" : "PccAppDecoder",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						5
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						20
+					],
+					"name" : "PccAppMetrics",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						7
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						21
+					],
+					"name" : "PccAppConformance",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						22
+					],
+					"name" : "PccAppVideoEncoder",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						11
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						23
+					],
+					"name" : "PccAppVideoDecoder",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						10
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						24
+					],
+					"name" : "PccAppColorConverter",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						25
+					],
+					"name" : "PccAppNormalGenerator",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						8
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "CommonLib::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-CommonLib-Debug-c76268c598d3f58efa7a.json",
+					"name" : "CommonLib",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "DecoderLib_vtm::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-DecoderLib_vtm-Debug-17b34c759ab85b281df5.json",
+					"name" : "DecoderLib_vtm",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "EncoderLib_vtm::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-EncoderLib_vtm-Debug-292ccf29b9cda75fdcf3.json",
+					"name" : "EncoderLib_vtm",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 24,
+					"id" : "PccAppColorConverter::@f40c5873e7e4f010f0fd",
+					"jsonFile" : "target-PccAppColorConverter-Debug-ddbc99257a0156f44084.json",
+					"name" : "PccAppColorConverter",
+					"projectIndex" : 23
+				},
+				{
+					"directoryIndex" : 21,
+					"id" : "PccAppConformance::@07bb996eeebc98911982",
+					"jsonFile" : "target-PccAppConformance-Debug-25159f1cd09fd55f9d6c.json",
+					"name" : "PccAppConformance",
+					"projectIndex" : 20
+				},
+				{
+					"directoryIndex" : 19,
+					"id" : "PccAppDecoder::@915cc70401b8111ce5e3",
+					"jsonFile" : "target-PccAppDecoder-Debug-f761402e1a5153eb7f34.json",
+					"name" : "PccAppDecoder",
+					"projectIndex" : 18
+				},
+				{
+					"directoryIndex" : 18,
+					"id" : "PccAppEncoder::@f7cd6aecdf43681399e2",
+					"jsonFile" : "target-PccAppEncoder-Debug-196b8ff22055c877d9c6.json",
+					"name" : "PccAppEncoder",
+					"projectIndex" : 17
+				},
+				{
+					"directoryIndex" : 20,
+					"id" : "PccAppMetrics::@80755eaa056c24212deb",
+					"jsonFile" : "target-PccAppMetrics-Debug-1c52faaeafa00cc21c01.json",
+					"name" : "PccAppMetrics",
+					"projectIndex" : 19
+				},
+				{
+					"directoryIndex" : 25,
+					"id" : "PccAppNormalGenerator::@b8b02eecf549a60902fe",
+					"jsonFile" : "target-PccAppNormalGenerator-Debug-98b7a26151820519108d.json",
+					"name" : "PccAppNormalGenerator",
+					"projectIndex" : 24
+				},
+				{
+					"directoryIndex" : 17,
+					"id" : "PccAppParser::@09592cee15dee3a0928a",
+					"jsonFile" : "target-PccAppParser-Debug-123118f406a87e3846bf.json",
+					"name" : "PccAppParser",
+					"projectIndex" : 16
+				},
+				{
+					"directoryIndex" : 23,
+					"id" : "PccAppVideoDecoder::@e007c540e0d969b103dd",
+					"jsonFile" : "target-PccAppVideoDecoder-Debug-19c9a88305546fb62237.json",
+					"name" : "PccAppVideoDecoder",
+					"projectIndex" : 22
+				},
+				{
+					"directoryIndex" : 22,
+					"id" : "PccAppVideoEncoder::@5eebf055109606225958",
+					"jsonFile" : "target-PccAppVideoEncoder-Debug-764fbf86821daba3cf9e.json",
+					"name" : "PccAppVideoEncoder",
+					"projectIndex" : 21
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "PccLibAvcParser::@93a8b84ab82a5a427f40",
+					"jsonFile" : "target-PccLibAvcParser-Debug-55abbcf80f81c99f10cd.json",
+					"name" : "PccLibAvcParser",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "PccLibBitstreamCommon::@822423bf142bd63fc945",
+					"jsonFile" : "target-PccLibBitstreamCommon-Debug-b1c7209fbfb07bfc5dbe.json",
+					"name" : "PccLibBitstreamCommon",
+					"projectIndex" : 8
+				},
+				{
+					"directoryIndex" : 11,
+					"id" : "PccLibBitstreamReader::@1a0b2b6ddc4604f07533",
+					"jsonFile" : "target-PccLibBitstreamReader-Debug-1828df7e2610465ffc6b.json",
+					"name" : "PccLibBitstreamReader",
+					"projectIndex" : 10
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "PccLibBitstreamWriter::@6c8602dba96c8bb8912c",
+					"jsonFile" : "target-PccLibBitstreamWriter-Debug-7210d0a44ba9cf412aa4.json",
+					"name" : "PccLibBitstreamWriter",
+					"projectIndex" : 9
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "PccLibColorConverter::@23bfe55e105cac077dda",
+					"jsonFile" : "target-PccLibColorConverter-Debug-aa3bbc591a2a7d9d2276.json",
+					"name" : "PccLibColorConverter",
+					"projectIndex" : 7
+				},
+				{
+					"directoryIndex" : 12,
+					"id" : "PccLibCommon::@eb309624775ee4f1223e",
+					"jsonFile" : "target-PccLibCommon-Debug-176901e0095ff11c89d4.json",
+					"name" : "PccLibCommon",
+					"projectIndex" : 11
+				},
+				{
+					"directoryIndex" : 16,
+					"id" : "PccLibConformance::@8d8a4c22cf1d13077d82",
+					"jsonFile" : "target-PccLibConformance-Debug-880de675c1448bb119c7.json",
+					"name" : "PccLibConformance",
+					"projectIndex" : 15
+				},
+				{
+					"directoryIndex" : 13,
+					"id" : "PccLibDecoder::@4e16dc0b7ba5edab02a2",
+					"jsonFile" : "target-PccLibDecoder-Debug-8b7e511392a1a1980497.json",
+					"name" : "PccLibDecoder",
+					"projectIndex" : 12
+				},
+				{
+					"directoryIndex" : 14,
+					"id" : "PccLibEncoder::@e3d813c19388088725e4",
+					"jsonFile" : "target-PccLibEncoder-Debug-b8f38a743aa964e6b1c8.json",
+					"name" : "PccLibEncoder",
+					"projectIndex" : 13
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "PccLibHevcParser::@1472964d87c76571d3b3",
+					"jsonFile" : "target-PccLibHevcParser-Debug-cbb005157ea97faecda3.json",
+					"name" : "PccLibHevcParser",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 15,
+					"id" : "PccLibMetrics::@61642ef451b1c0d72b5c",
+					"jsonFile" : "target-PccLibMetrics-Debug-578990fabc4fb6b9ba5a.json",
+					"name" : "PccLibMetrics",
+					"projectIndex" : 14
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "PccLibShvcParser::@23188f6958e0261b144c",
+					"jsonFile" : "target-PccLibShvcParser-Debug-1c10c77c79ed0d79b869.json",
+					"name" : "PccLibShvcParser",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "PccLibVideoDecoder::@bfbdf1ab87eff69f582d",
+					"jsonFile" : "target-PccLibVideoDecoder-Debug-f77aeefe7a4d5ba05324.json",
+					"name" : "PccLibVideoDecoder",
+					"projectIndex" : 5
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "PccLibVideoEncoder::@2ab054f26296e00d28b7",
+					"jsonFile" : "target-PccLibVideoEncoder-Debug-1131f8ef50860b865f91.json",
+					"name" : "PccLibVideoEncoder",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "TLibCommon::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-TLibCommon-Debug-69c2c2d1a9697f6c88d8.json",
+					"name" : "TLibCommon",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "TLibDecoder::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-TLibDecoder-Debug-9d94f8481a2c4cc23694.json",
+					"name" : "TLibDecoder",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "TLibEncoder::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-TLibEncoder-Debug-d938cf4dca4ea82835a6.json",
+					"name" : "TLibEncoder",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "TLibVideoIO::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-TLibVideoIO-Debug-0f9a232b684c99b23c69.json",
+					"name" : "TLibVideoIO",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Utilities_vtm::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Utilities_vtm-Debug-6d52dca2079a9aaca161.json",
+					"name" : "Utilities_vtm",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ldecod::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ldecod-Debug-50ba17b65364c24b669e.json",
+					"name" : "ldecod",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "lencod::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-lencod-Debug-07bc1c0705778f4662e3.json",
+					"name" : "lencod",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "libmd5::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-libmd5-Debug-e20275ed94107568986e.json",
+					"name" : "libmd5",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "libmd5_vtm::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-libmd5_vtm-Debug-d37a6c20582119b39c67.json",
+					"name" : "libmd5_vtm",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "tbb_def_files::@f5f93f19e8091e07abf6",
+					"jsonFile" : "target-tbb_def_files-Debug-7dfad0b1a7c4717c4275.json",
+					"name" : "tbb_def_files",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "tbb_static::@f5f93f19e8091e07abf6",
+					"jsonFile" : "target-tbb_static-Debug-591c7ae2081d0b523331.json",
+					"name" : "tbb_static",
+					"projectIndex" : 1
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/prana/Documents/GitHub/mpeg-pcc-tmc2/out/build/x64-Debug (default)",
+		"source" : "C:/Users/prana/Documents/GitHub/mpeg-pcc-tmc2"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 1
+	}
+}

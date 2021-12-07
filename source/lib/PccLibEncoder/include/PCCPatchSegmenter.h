@@ -35,6 +35,7 @@
 #define PCCPatchSegmenter_h
 
 #include "PCCCommon.h"
+#include "PCCEncoderParameters.h"
 #include <set>
 
 namespace pcc {
@@ -111,7 +112,8 @@ class PCCPatchSegmenter3 {
                 const PCCPatchSegmenter3Parameters& params,
                 std::vector<PCCPatch>&              patches,
                 std::vector<PCCPointSet3>&          subPointCloud,
-                float&                              distanceSrcRec );
+                float&                              distanceSrcRec,
+                PCCEncoderParameters&                userParams );
 
   void convertPointsToVoxels( const PCCPointSet3& source,
                               size_t              geoBits,
@@ -207,7 +209,8 @@ class PCCPatchSegmenter3 {
                        float&                              distanceSrcRec,
                        const PCCNormalsGenerator3&         normalsGen,
                        const PCCVector3D*                  orientations,
-                       const size_t                        orientationCount );
+                       const size_t                        orientationCount,
+                       PCCEncoderParameters&               userParams );
 
   void refineSegmentation( const PCCPointSet3&         pointCloud,
                            const PCCKdTree&            kdtree,

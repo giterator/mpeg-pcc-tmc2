@@ -1,0 +1,432 @@
+{
+	"archive" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "/machine:x64",
+				"role" : "flags"
+			}
+		]
+	},
+	"artifacts" : 
+	[
+		{
+			"path" : "C:/Users/prana/Documents/GitHub/mpeg-pcc-tmc2/lib/PccLibBitstreamCommon.lib"
+		}
+	],
+	"backtrace" : 2,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"_add_library",
+			"ADD_LIBRARY",
+			"INCLUDE_DIRECTORIES"
+		],
+		"files" : 
+		[
+			"C:/Users/prana/Documents/dev/vcpkg/scripts/buildsystems/vcpkg.cmake",
+			"source/lib/PccLibBitstreamCommon/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 30,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 378,
+				"parent" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 27,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS /Zi /Ob0 /Od /RTC1 -MDd   /wd4244 /wd4267 /wd4996"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 3,
+					"path" : "C:/Users/prana/Documents/GitHub/mpeg-pcc-tmc2/source/lib/PccLibBitstreamCommon/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "C:/Users/prana/Documents/GitHub/mpeg-pcc-tmc2/dependencies/libmd5"
+				}
+			],
+			"language" : "C",
+			"sourceIndexes" : 
+			[
+				44
+			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd   /wd4244 /wd4267 /wd4996"
+				},
+				{
+					"fragment" : "-std:c++14"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 3,
+					"path" : "C:/Users/prana/Documents/GitHub/mpeg-pcc-tmc2/source/lib/PccLibBitstreamCommon/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "C:/Users/prana/Documents/GitHub/mpeg-pcc-tmc2/dependencies/libmd5"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				45,
+				46,
+				47
+			]
+		}
+	],
+	"id" : "PccLibBitstreamCommon::@822423bf142bd63fc945",
+	"name" : "PccLibBitstreamCommon",
+	"nameOnDisk" : "PccLibBitstreamCommon.lib",
+	"paths" : 
+	{
+		"build" : "source/lib/PccLibBitstreamCommon",
+		"source" : "source/lib/PccLibBitstreamCommon"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "inc",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29,
+				30,
+				31,
+				32,
+				33,
+				34,
+				35,
+				36,
+				37,
+				38,
+				39,
+				40,
+				41,
+				42,
+				43
+			]
+		},
+		{
+			"name" : "cpp",
+			"sourceIndexes" : 
+			[
+				44,
+				45,
+				46,
+				47
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 2,
+			"path" : "dependencies/libmd5/MD5.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "dependencies/libmd5/libmd5.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCAccessUnitDelimiterRbsp.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCAtlasAdaptationParameterSetRbsp.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCAtlasFrameParameterSetRbsp.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCAtlasFrameTileInformation.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCAtlasSequenceParameterSetRbsp.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCAtlasTileDataUnit.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCAtlasTileHeader.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCAtlasTileLayerRbsp.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCAttributeInformation.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCBitstream.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCBitstreamCommon.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCConfig.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCEOMPatchDataUnit.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCEndOfAtlasSubBitstreamRbsp.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCEndOfSequenceRbsp.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCFillerDataRbsp.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCGeometryInformation.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCHighLevelSyntax.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCInterPatchDataUnit.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCLogger.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCMergePatchDataUnit.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCNalUnit.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCOccupancyInformation.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCPLRData.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCPLRInformation.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCPatchDataUnit.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCPatchInformationData.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCProfileTierLevel.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCProfileToolsetConstraintsInformation.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCRawPatchDataUnit.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCRefListStruct.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCSampleStreamNalUnit.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCSampleStreamV3CUnit.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCSei.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCSkipPatchDataUnit.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCSupplementalEnhancementInformationRbsp.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCV3CParameterSet.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCV3CUnit.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCV3CUnitHeader.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCVUIParameters.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCVideoBitstream.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "source/lib/PccLibBitstreamCommon/include/PCCVpccExtension.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "dependencies/libmd5/libmd5.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 1,
+			"path" : "source/lib/PccLibBitstreamCommon/source/PCCBitstream.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 1,
+			"path" : "source/lib/PccLibBitstreamCommon/source/PCCHighLevelSyntax.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 1,
+			"path" : "source/lib/PccLibBitstreamCommon/source/PCCVideoBitstream.cpp",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "STATIC_LIBRARY"
+}

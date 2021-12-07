@@ -39,6 +39,8 @@
 #include "PCCPatchSegmenter.h"
 #include "PCCPatch.h"
 
+#include "octree.h"
+
 using namespace pcc;
 
 void PCCPatchSegmenter3::setNbThread( size_t nbThread ) {
@@ -51,7 +53,8 @@ void PCCPatchSegmenter3::compute( const PCCPointSet3&                 geometry,
                                   const PCCPatchSegmenter3Parameters& params,
                                   std::vector<PCCPatch>&              patches,
                                   std::vector<PCCPointSet3>&          subPointCloud,
-                                  float&                              distanceSrcRec ) {
+                                  float&                              distanceSrcRec,
+                                  PCCEncoderParameters&               userParams ) {
   PCCVector3D* orientations     = nullptr;
   size_t       orientationCount = 0;
   if ( params.additionalProjectionPlaneMode_ == 0 ) {
@@ -141,7 +144,7 @@ void PCCPatchSegmenter3::compute( const PCCPointSet3&                 geometry,
   std::vector<size_t> rawPoints;
 
   segmentPatches( geometry, frameIndex, kdtree, params, partition, patches, patchPartition, resampledPatchPartition,
-                  rawPoints, resampled, subPointCloud, distanceSrcRec, normalsGen, orientations, orientationCount );
+                  rawPoints, resampled, subPointCloud, distanceSrcRec, normalsGen, orientations, orientationCount, userParams );
   std::cout << "[done]" << std::endl;
 }
 
@@ -517,7 +520,8 @@ void PCCPatchSegmenter3::segmentPatches( const PCCPointSet3&                 poi
                                          float&                              distanceSrcRec,
                                          const PCCNormalsGenerator3&         normalsGen,
                                          const PCCVector3D*                  orientations,
-                                         const size_t                        orientationCount ) {
+                                         const size_t                        orientationCount,
+                                         PCCEncoderParameters&               userParams ) {
   const size_t     maxNNCount                        = params.maxNNCountPatchSegmentation_;
   const size_t     minPointCountPerCC                = params.minPointCountPerCCPatchSegmentation_;
   const size_t     occupancyResolution               = params.occupancyResolution_;
@@ -542,15 +546,18 @@ void PCCPatchSegmenter3::segmentPatches( const PCCPointSet3&                 poi
   const double     minGradient                       = params.minGradient_;
   const size_t     minNumHighGradientPoints          = params.minNumHighGradientPoints_;
   bool             enablePointCloudPartitioning      = params.enablePointCloudPartitioning_;
+  
   std::vector<int> roiBoundingBoxMinX = const_cast<PCCPatchSegmenter3Parameters&>( params ).roiBoundingBoxMinX_;
   std::vector<int> roiBoundingBoxMaxX = const_cast<PCCPatchSegmenter3Parameters&>( params ).roiBoundingBoxMaxX_;
   std::vector<int> roiBoundingBoxMinY = const_cast<PCCPatchSegmenter3Parameters&>( params ).roiBoundingBoxMinY_;
   std::vector<int> roiBoundingBoxMaxY = const_cast<PCCPatchSegmenter3Parameters&>( params ).roiBoundingBoxMaxY_;
   std::vector<int> roiBoundingBoxMinZ = const_cast<PCCPatchSegmenter3Parameters&>( params ).roiBoundingBoxMinZ_;
   std::vector<int> roiBoundingBoxMaxZ = const_cast<PCCPatchSegmenter3Parameters&>( params ).roiBoundingBoxMaxZ_;
+  /*
   int numCutsAlong1stLongestAxis      = const_cast<PCCPatchSegmenter3Parameters&>( params ).numCutsAlong1stLongestAxis_;
   int numCutsAlong2ndLongestAxis      = const_cast<PCCPatchSegmenter3Parameters&>( params ).numCutsAlong2ndLongestAxis_;
   int numCutsAlong3rdLongestAxis      = const_cast<PCCPatchSegmenter3Parameters&>( params ).numCutsAlong3rdLongestAxis_;
+  */
   const size_t pointCount             = points.getPointCount();
   patchPartition.resize( pointCount, 0 );
   resampledPatchPartition.reserve( pointCount );
@@ -582,6 +589,8 @@ void PCCPatchSegmenter3::segmentPatches( const PCCPointSet3&                 poi
     if ( !enablePointCloudPartitioning ) {
       computeAdjacencyInfo( points, kdtree, adj, maxNNCount );
     } else {
+
+      /*
       numROIs = static_cast<int>( roiBoundingBoxMinX.size() );
       std::vector<std::vector<size_t>> numCutsPerAxis;  // number of cuts per axis for each ROI
       numCutsPerAxis.resize( numROIs );
@@ -594,8 +603,18 @@ void PCCPatchSegmenter3::segmentPatches( const PCCPointSet3&                 poi
       std::vector<std::vector<std::vector<Range>>> cutRangesPerAxis;
       cutRangesPerAxis.resize( numROIs );
       for ( auto& cutRng : cutRangesPerAxis ) { cutRng.resize( 3 ); }
+      */
 
       std::vector<std::vector<Range>> chunks;
+      
+
+      /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      octree_decomp( points, chunks, userParams,
+                     roiBoundingBoxMinX, roiBoundingBoxMaxX, roiBoundingBoxMinY, roiBoundingBoxMaxY, roiBoundingBoxMinZ,
+                         roiBoundingBoxMaxZ );
+      /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      /*
       // chunks[c][x]: range of x-th axis of c-th chunk cut each ROI into chunks for each ROI, sort axes according to
       // their length and cut w.r.t to numCutsAlong[1st,2nd,3rd]LongestAxis
       for ( int roiIndex = 0; roiIndex < numROIs; ++roiIndex ) {
@@ -678,6 +697,8 @@ void PCCPatchSegmenter3::segmentPatches( const PCCPointSet3&                 poi
           }
         }
       }
+      */
+
 
       numChunks = static_cast<int>( chunks.size() );
 

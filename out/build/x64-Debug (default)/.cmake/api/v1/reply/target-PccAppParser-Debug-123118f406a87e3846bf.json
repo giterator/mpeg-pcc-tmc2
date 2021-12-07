@@ -1,0 +1,181 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "C:/Users/prana/Documents/GitHub/mpeg-pcc-tmc2/bin/PccAppParser.exe"
+		},
+		{
+			"path" : "C:/Users/prana/Documents/GitHub/mpeg-pcc-tmc2/bin/PccAppParser.pdb"
+		}
+	],
+	"backtrace" : 2,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"_add_executable",
+			"ADD_EXECUTABLE",
+			"INSTALL",
+			"TARGET_LINK_LIBRARIES",
+			"INCLUDE_DIRECTORIES"
+		],
+		"files" : 
+		[
+			"C:/Users/prana/Documents/dev/vcpkg/scripts/buildsystems/vcpkg.cmake",
+			"source/app/PccAppParser/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 13,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 349,
+				"parent" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 19,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 17,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 10,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd   /wd4244 /wd4267 /wd4996"
+				},
+				{
+					"fragment" : "-std:c++14"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 5,
+					"path" : "C:/Users/prana/Documents/GitHub/mpeg-pcc-tmc2/source/lib/PccLibBitstreamCommon/include"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "C:/Users/prana/Documents/GitHub/mpeg-pcc-tmc2/source/lib/PccLibBitstreamReader/include"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 4,
+			"id" : "PccLibBitstreamReader::@1a0b2b6ddc4604f07533"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "PccLibBitstreamCommon::@822423bf142bd63fc945"
+		}
+	],
+	"id" : "PccAppParser::@09592cee15dee3a0928a",
+	"install" : 
+	{
+		"destinations" : 
+		[
+			{
+				"backtrace" : 3,
+				"path" : "bin"
+			}
+		],
+		"prefix" : 
+		{
+			"path" : "C:/Users/prana/Documents/GitHub/mpeg-pcc-tmc2/out/install/x64-Debug (default)"
+		}
+	},
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "/DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "/machine:x64 /NODEFAULTLIB:tbb_debug.lib /NODEFAULTLIB:tbb.lib /debug /INCREMENTAL /subsystem:console",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "..\\..\\..\\..\\..\\..\\lib\\PccLibBitstreamCommon.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "..\\..\\..\\..\\..\\..\\lib\\PccLibBitstreamReader.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "..\\..\\..\\..\\..\\..\\lib\\PccLibBitstreamCommon.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "PccAppParser",
+	"nameOnDisk" : "PccAppParser.exe",
+	"paths" : 
+	{
+		"build" : "source/app/PccAppParser",
+		"source" : "source/app/PccAppParser"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "source/app/PccAppParser/PccAppParser.cpp",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "EXECUTABLE"
+}

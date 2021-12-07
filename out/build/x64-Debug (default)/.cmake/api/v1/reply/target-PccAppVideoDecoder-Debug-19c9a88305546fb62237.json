@@ -1,0 +1,342 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "C:/Users/prana/Documents/GitHub/mpeg-pcc-tmc2/bin/PccAppVideoDecoder.exe"
+		},
+		{
+			"path" : "C:/Users/prana/Documents/GitHub/mpeg-pcc-tmc2/bin/PccAppVideoDecoder.pdb"
+		}
+	],
+	"backtrace" : 2,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"_add_executable",
+			"ADD_EXECUTABLE",
+			"INSTALL",
+			"TARGET_LINK_LIBRARIES",
+			"INCLUDE_DIRECTORIES"
+		],
+		"files" : 
+		[
+			"C:/Users/prana/Documents/dev/vcpkg/scripts/buildsystems/vcpkg.cmake",
+			"source/app/PccAppVideoDecoder/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 15,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 349,
+				"parent" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 21,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 19,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 10,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd   /wd4244 /wd4267 /wd4996"
+				},
+				{
+					"fragment" : "-std:c++14"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 4,
+					"define" : "_CRT_SECURE_NO_WARNINGS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 5,
+					"path" : "C:/Users/prana/Documents/GitHub/mpeg-pcc-tmc2/source/lib/PccLibCommon/include"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "C:/Users/prana/Documents/GitHub/mpeg-pcc-tmc2/source/lib/PccLibBitstreamCommon/include"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "C:/Users/prana/Documents/GitHub/mpeg-pcc-tmc2/source/lib/PccLibVideoDecoder/include"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "C:/Users/prana/Documents/GitHub/mpeg-pcc-tmc2/dependencies/program-options-lite"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/prana/Documents/GitHub/mpeg-pcc-tmc2/dependencies/HM-16.20+SCM-8.8/source/Lib"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/prana/Documents/GitHub/mpeg-pcc-tmc2/dependencies/jm19.0_lib/source/lib/lcommon"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/prana/Documents/GitHub/mpeg-pcc-tmc2/dependencies/jm19.0_lib/source/app/ldecod"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/prana/Documents/GitHub/mpeg-pcc-tmc2/dependencies/VTM/source/Lib/CommonLib/."
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/prana/Documents/GitHub/mpeg-pcc-tmc2/dependencies/VTM/source/Lib/CommonLib/.."
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/prana/Documents/GitHub/mpeg-pcc-tmc2/dependencies/VTM/source/Lib/CommonLib/x86"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/prana/Documents/GitHub/mpeg-pcc-tmc2/dependencies/VTM/source/Lib"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				0,
+				2
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 4,
+			"id" : "libmd5::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "TLibCommon::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "CommonLib::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "ldecod::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "TLibDecoder::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "libmd5_vtm::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "DecoderLib_vtm::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "PccLibHevcParser::@1472964d87c76571d3b3"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "PccLibShvcParser::@23188f6958e0261b144c"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "PccLibAvcParser::@93a8b84ab82a5a427f40"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "PccLibVideoDecoder::@bfbdf1ab87eff69f582d"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "PccLibBitstreamCommon::@822423bf142bd63fc945"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "PccLibCommon::@eb309624775ee4f1223e"
+		}
+	],
+	"id" : "PccAppVideoDecoder::@e007c540e0d969b103dd",
+	"install" : 
+	{
+		"destinations" : 
+		[
+			{
+				"backtrace" : 3,
+				"path" : "bin"
+			}
+		],
+		"prefix" : 
+		{
+			"path" : "C:/Users/prana/Documents/GitHub/mpeg-pcc-tmc2/out/install/x64-Debug (default)"
+		}
+	},
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "/DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "/machine:x64 /NODEFAULTLIB:tbb_debug.lib /NODEFAULTLIB:tbb.lib /debug /INCREMENTAL /subsystem:console",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "..\\..\\..\\..\\..\\..\\lib\\PccLibCommon.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "..\\..\\..\\..\\..\\..\\lib\\PccLibBitstreamCommon.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "..\\..\\..\\..\\..\\..\\lib\\PccLibVideoDecoder.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "..\\..\\..\\..\\..\\..\\lib\\PccLibCommon.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "..\\..\\..\\..\\..\\..\\lib\\PccLibBitstreamCommon.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\..\\..\\..\\..\\lib\\TLibDecoder.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\..\\..\\..\\..\\lib\\TLibCommon.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\..\\..\\..\\..\\lib\\libmd5.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\..\\..\\..\\..\\lib\\ldecod.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\..\\..\\..\\..\\lib\\DecoderLib_vtm.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\..\\..\\..\\..\\lib\\CommonLib.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\..\\..\\..\\..\\lib\\libmd5_vtm.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\..\\..\\..\\..\\lib\\PccLibHevcParser.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\..\\..\\..\\..\\lib\\PccLibAvcParser.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\..\\..\\..\\..\\lib\\PccLibShvcParser.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "ws2_32.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "PccAppVideoDecoder",
+	"nameOnDisk" : "PccAppVideoDecoder.exe",
+	"paths" : 
+	{
+		"build" : "source/app/PccAppVideoDecoder",
+		"source" : "source/app/PccAppVideoDecoder"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				2
+			]
+		},
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				1
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "dependencies/program-options-lite/program_options_lite.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "dependencies/program-options-lite/program_options_lite.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "source/app/PccAppVideoDecoder/PccAppVideoDecoder.cpp",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "EXECUTABLE"
+}

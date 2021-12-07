@@ -3652,7 +3652,7 @@ bool PCCEncoder::generateSegments( const PCCPointSet3&                 source,
     PCCPatchSegmenter3 segmenter;
     segmenter.setNbThread( params_.nbThread_ );
     segmenter.compute( source, frame.getFrameIndex(), segmenterParams, patches, frame.getSrcPointCloudByPatch(),
-                       distanceSrcRec );
+                       distanceSrcRec, params_ );
   } else {
     segmentationPartiallyAddtinalProjectionPlane( source, frame, segmenterParams, frameIndex, distanceSrcRec );
   }
@@ -8789,7 +8789,7 @@ void PCCEncoder::segmentationPartiallyAddtinalProjectionPlane( const PCCPointSet
     float distanceSrcRecA;
     segmenter.setNbThread( params_.nbThread_ );
     segmenter.compute( source, frame.getFrameIndex(), local, Orthogonal, frame.getSrcPointCloudByPatch(),
-                       distanceSrcRecA );
+                       distanceSrcRecA, params_ );
     distanceSrcRec                  = distanceSrcRecA;
     frame.getSrcPointCloudByPatch() = tmp;
   }
@@ -8806,7 +8806,7 @@ void PCCEncoder::segmentationPartiallyAddtinalProjectionPlane( const PCCPointSet
     float distanceSrcRecA;
     segmenter.setNbThread( params_.nbThread_ );
     segmenter.compute( partial, frame.getFrameIndex(), local, Additional, frame.getSrcPointCloudByPatch(),
-                       distanceSrcRecA );
+                       distanceSrcRecA, params_ );
     distanceSrcRec                  = distanceSrcRecA;
     frame.getSrcPointCloudByPatch() = tmp;
 
