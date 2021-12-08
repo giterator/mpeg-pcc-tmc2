@@ -66,7 +66,8 @@ void octree_decomp(const PCCPointSet3&                 points,
     }
 
     //Divide PC into voxels
-    octree_recurse_decomp( points, chunks, num_points, x_min, x_max, y_min, y_max, z_min, z_max, userParams.maxPointsPerVoxel );
+    octree_recurse_decomp( points, chunks, num_points, x_min, x_max, y_min, y_max, z_min, z_max,
+                           userParams.maxPointsPerVoxelOctree );
 
     //OVERWRITE user defined numROIs
     userParams.numROIs_ = chunks.size();

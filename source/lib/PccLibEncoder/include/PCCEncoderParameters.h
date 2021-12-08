@@ -121,6 +121,11 @@ class PCCEncoderParameters {
   double lambdaRefineSegmentation_;
   size_t mapCountMinus1_;
 
+  //////////////////////////////////////////////////////
+  //maxPointsPerVoxelOctree
+  int maxPointsPerVoxelOctree;
+  //////////////////////////////////////////////////////
+
   // occupancy map encoding
   size_t      maxCandidateCount_;
   size_t      occupancyPrecision_;

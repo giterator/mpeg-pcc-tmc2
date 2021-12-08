@@ -275,6 +275,13 @@ bool parseParameters( int                   argc,
       encoderParams.lambdaRefineSegmentation_,
       encoderParams.lambdaRefineSegmentation_,
       "Controls the smoothness of the patch boundaries  during segmentation  refinement" )
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //new param for maxPointsPerVoxel
+    ( "maxPointsPerVoxelOctree",
+      encoderParams.maxPointsPerVoxelOctree,
+      encoderParams.maxPointsPerVoxelOctree,
+      "Maximum number of points per voxel in the octree decompositio" )
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // packing
     ( "minimumImageWidth",
