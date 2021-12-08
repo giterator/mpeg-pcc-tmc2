@@ -1,0 +1,69 @@
+
+//original format: all config are predefined settings ; can create custome setting file (.cfg) and load
+//order in which config files are added MATTERS
+
+./bin/PccAppEncoder \
+    --configurationFolder=cfg/ \
+    --config=cfg/common/ctc-common.cfg \
+    --config=cfg/condition/ctc-all-intra.cfg \
+    --config=cfg/sequence/longdress_vox10_CUSTOMTEST.cfg \
+    --config=cfg/rate/ctc-r3.cfg \
+    --uncompressedDataPath=D:/NUS/Volumetric Video Streaming UROP/test_data/ \
+    --frameCount=1 \
+    --groupOfFramesSize=1 \
+    --resolution=1023 \
+    --colorTransform=0 \
+    --videoEncoderOccupancyPath=bin/PccAppHMVideoEncoder \
+    --videoEncoderGeometryPath=bin/PccAppHMVideoEncoder \
+    --videoEncoderAttributePath=bin/PccAppHMVideoEncoder \
+    --colorSpaceConversionPath=bin/PccAppColorConverter \
+    --reconstructedDataPath=D:/NUS/Volumetric Video Streaming UROP/test_data/reconstructed/test_rec_%04d.ply \
+    --compressedStreamPath=D:/NUS/Volumetric Video Streaming UROP/test_data/compressed/test_vox10_ai.bin
+
+
+
+//edited format
+//reconstructedDataPath seems to contain the "decompressed" PC. 
+// MUST have gemotryconfig, attribute config, occupancy map settings, 
+//     --colorSpaceConversionPath=bin/PccAppColorConverter  MAY CAUSE BREAK BECAUSE OF SETTING ISSUES - MIGHT REQUIRE 2 FRAMES MIN TO USE THIS
+
+./bin/PccAppEncoder \
+	--configurationFolder=cfg/ \
+    --config=cfg/common/ctc-common.cfg \
+    --config=cfg/condition/ctc-all-intra.cfg \
+    --config=cfg/rate/ctc-r3.cfg \
+    --uncompressedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/longdress_vox10_1051.ply \
+    --frameCount=1 \
+    --groupOfFramesSize=1 \
+    --resolution=1023 \
+    --colorTransform=0 \
+    --videoEncoderOccupancyPath=bin/PccAppVideoEncoder \
+    --videoEncoderGeometryPath=bin/PccAppVideoEncoder \
+    --videoEncoderAttributePath=bin/PccAppVideoEncoder \
+    --colorSpaceConversionPath=bin/PccAppColorConverter \
+    --reconstructedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/reconstructed/test_rec_1051.ply \
+    --compressedStreamPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/test_vox10_ai.bin \
+    --enablePointCloudPartitioning
+
+
+//runs w/o break
+./bin/PccAppEncoder \
+    --configurationFolder=cfg/ \
+    --config=cfg/common/ctc-common.cfg \
+    --config=cfg/condition/ctc-all-intra.cfg \
+    --config=cfg/rate/ctc-r3.cfg \
+    --uncompressedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/longdress_vox10_1051.ply \
+    --frameCount=1 \
+    --groupOfFramesSize=1 \
+    --resolution=1023 \
+    --colorTransform=0 \
+    --videoEncoderOccupancyPath=bin/PccAppVideoEncoder \
+    --videoEncoderGeometryPath=bin/PccAppVideoEncoder \
+    --videoEncoderAttributePath=bin/PccAppVideoEncoder \
+    --reconstructedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/reconstructed/test_rec_1051.ply \
+    --compressedStreamPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/test_vox10_ai.bin \
+    --enablePointCloudPartitioning
+    
+
+
+
