@@ -276,11 +276,11 @@ bool parseParameters( int                   argc,
       encoderParams.lambdaRefineSegmentation_,
       "Controls the smoothness of the patch boundaries  during segmentation  refinement" )
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //new param for maxPointsPerVoxel
+    //new param for maxPointsPerVoxelOctree
     ( "maxPointsPerVoxelOctree",
       encoderParams.maxPointsPerVoxelOctree,
       encoderParams.maxPointsPerVoxelOctree,
-      "Maximum number of points per voxel in the octree decompositio" )
+      "Maximum number of points per voxel in the octree decomposition" )
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // packing
@@ -1119,6 +1119,7 @@ int main( int argc, char* argv[] ) {
   std::cout << "PccAppEncoder v" << TMC2_VERSION_MAJOR << "." << TMC2_VERSION_MINOR << std::endl << std::endl;
 
   PCCEncoderParameters encoderParams;
+  encoderParams.maxPointsPerVoxelOctree = INT_MAX;
   PCCMetricsParameters metricsParams;
   if ( !parseParameters( argc, argv, encoderParams, metricsParams ) ) { return -1; }
   if ( encoderParams.nbThread_ > 0 ) { tbb::task_scheduler_init init( static_cast<int>( encoderParams.nbThread_ ) ); }
