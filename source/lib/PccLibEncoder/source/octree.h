@@ -15,6 +15,78 @@ using namespace pcc;
 
 //overwrite params_.numROIs_ since used for patch generation and packing
 
+int num_points_in_box( const PCCPointSet3& points, int x_min, int x_max, int y_min, int y_max, int z_min, int z_max ) {
+  int num_points = points.getPointCount();
+  int count      = 0;
+
+  for ( int i = 0; i < num_points; ++i ) {
+    auto x = points[i][0];
+    auto y = points[i][1];
+    auto z = points[i][2];
+
+    if ( x_min <= x && x <= x_max && y_min <= y && y <= y_max && z_min <= z && z <= z_max ) { count++; }
+  }
+
+  return count;
+}
+
+
+void octree_recurse_decomp( const PCCPointSet3&              points,
+                            std::vector<std::vector<Range>>& chunks,
+                            int                              num_points,
+                            int                              x_min,
+                            int                              x_max,
+                            int                              y_min,
+                            int                              y_max,
+                            int                              z_min,
+                            int                              z_max,
+                            int                              maxPointsPerVoxel ) {
+  if ( num_points > maxPointsPerVoxel ) {
+    int bisect_x = ( x_min + x_max ) / 2;
+    int bisect_y = ( y_min + y_max ) / 2;
+    int bisect_z = ( z_min + z_max ) / 2;
+
+    int front_bottom_left_count = num_points_in_box( points, x_min, bisect_x, y_min, bisect_y, z_min, bisect_z );
+    octree_recurse_decomp( points, chunks, front_bottom_left_count, x_min, bisect_x, y_min, bisect_y, z_min, bisect_z,
+                           maxPointsPerVoxel );
+
+    int front_top_left_count = num_points_in_box( points, x_min, bisect_x, bisect_y + 1, y_max, z_min, bisect_z );
+    octree_recurse_decomp( points, chunks, front_top_left_count, x_min, bisect_x, bisect_y + 1, y_max, z_min, bisect_z,
+                           maxPointsPerVoxel );
+
+    int front_bottom_right_count = num_points_in_box( points, bisect_x + 1, x_max, y_min, bisect_y, z_min, bisect_z );
+    octree_recurse_decomp( points, chunks, front_bottom_right_count, bisect_x + 1, x_max, y_min, bisect_y, z_min,
+                           bisect_z, maxPointsPerVoxel );
+
+    int front_top_right_count = num_points_in_box( points, bisect_x + 1, x_max, bisect_y + 1, y_max, z_min, bisect_z );
+    octree_recurse_decomp( points, chunks, front_top_right_count, bisect_x + 1, x_max, bisect_y + 1, y_max, z_min,
+                           bisect_z, maxPointsPerVoxel );
+
+    int back_bottom_left_count = num_points_in_box( points, x_min, bisect_x, y_min, bisect_y, bisect_z + 1, z_max );
+    octree_recurse_decomp( points, chunks, back_bottom_left_count, x_min, bisect_x, y_min, bisect_y, bisect_z + 1,
+                           z_max, maxPointsPerVoxel );
+
+    int back_top_left_count = num_points_in_box( points, x_min, bisect_x, bisect_y + 1, y_max, bisect_z + 1, z_max );
+    octree_recurse_decomp( points, chunks, back_top_left_count, x_min, bisect_x, bisect_y + 1, y_max, bisect_z + 1,
+                           z_max, maxPointsPerVoxel );
+
+    int back_bottom_right_count =
+        num_points_in_box( points, bisect_x + 1, x_max, y_min, bisect_y, bisect_z + 1, z_max );
+    octree_recurse_decomp( points, chunks, back_bottom_right_count, bisect_x + 1, x_max, y_min, bisect_y, bisect_z + 1,
+                           z_max, maxPointsPerVoxel );
+
+    int back_top_right_count = num_points_in_box( points, bisect_x + 1, x_max, bisect_y + 1, y_max, bisect_z, z_max );
+    octree_recurse_decomp( points, chunks, back_top_right_count, bisect_x + 1, x_max, bisect_y + 1, y_max, bisect_z,
+                           z_max, maxPointsPerVoxel );
+
+  } else {
+    Range rangeX = Range( x_min, x_max );
+    Range rangeY = Range( y_min, y_max );
+    Range rangeZ = Range( z_min, z_max );
+
+    chunks.push_back( std::vector<Range>( { rangeX, rangeY, rangeZ } ) );
+  }
+}
 
 /* Perform octree decomposition of PC. 
       1. Compute bounding box for PC
@@ -90,91 +162,5 @@ void octree_decomp(const PCCPointSet3&                 points,
         roiBoundingBoxMinZ.push_back( chunks[i][2].first ); //min z
         roiBoundingBoxMaxZ.push_back( chunks[i][2].second ); //max z
     }
-
-}
-
-int num_points_in_box( const PCCPointSet3& points, int x_min, int x_max, int y_min, int y_max, int z_min, int z_max ) {
-  int num_points = points.getPointCount();
-  int count      = 0;
-
-  for ( int i = 0; i < num_points; ++i ) {
-    auto x = points[i][0];
-    auto y = points[i][1];
-    auto z = points[i][2];
-
-    if ( x_min <= x && x <= x_max && y_min <= y && y <= y_max && z_min <= z && z <= z_max ) { count++; }
-  }
-
-  return count;
-}
-
-void octree_recurse_decomp(const PCCPointSet3&          points,
-                    std::vector<std::vector<Range>>&    chunks,
-                    int                                 num_points,
-                    int                                 x_min,
-                    int                                 x_max,
-                    int                                 y_min,
-                    int                                 y_max,
-                    int                                 z_min,
-                    int                                 z_max,
-                    int                                 maxPointsPerVoxel){
-                    
-    if (num_points > maxPointsPerVoxel) {
-
-        int bisect_x = ( x_min + x_max ) / 2;
-        int bisect_y = ( y_min + y_max ) / 2;
-        int bisect_z = ( z_min + z_max ) / 2;
-
-        int front_bottom_left_count = 
-            num_points_in_box( points, x_min, bisect_x, y_min, bisect_y, z_min, bisect_z );
-        octree_recurse_decomp( points, chunks, front_bottom_left_count, x_min, bisect_x, y_min, bisect_y, z_min,
-                               bisect_z, maxPointsPerVoxel );
-
-        int front_top_left_count = 
-            num_points_in_box( points, x_min, bisect_x, bisect_y + 1, y_max, z_min, bisect_z );
-        octree_recurse_decomp( points, chunks, front_top_left_count, x_min, bisect_x, bisect_y + 1, y_max, z_min,
-                               bisect_z, maxPointsPerVoxel );
-
-        int front_bottom_right_count =
-            num_points_in_box( points, bisect_x + 1, x_max, y_min, bisect_y, z_min, bisect_z );
-        octree_recurse_decomp( points, chunks, front_bottom_right_count, bisect_x + 1, x_max, y_min, bisect_y, z_min,
-                               bisect_z, maxPointsPerVoxel );
-
-        int front_top_right_count =
-            num_points_in_box( points, bisect_x + 1, x_max, bisect_y + 1, y_max, z_min, bisect_z );
-        octree_recurse_decomp( points, chunks, front_top_right_count, bisect_x + 1, x_max, bisect_y + 1, y_max, z_min,
-                               bisect_z, maxPointsPerVoxel );
-
-
-        int back_bottom_left_count = 
-            num_points_in_box(points, x_min, bisect_x, y_min, bisect_y, bisect_z + 1, z_max);
-        octree_recurse_decomp( points, chunks, back_bottom_left_count, x_min, bisect_x, y_min, bisect_y, bisect_z + 1,
-                               z_max, maxPointsPerVoxel );
-
-        int back_top_left_count = 
-            num_points_in_box(points, x_min, bisect_x, bisect_y + 1, y_max, bisect_z + 1, z_max);
-        octree_recurse_decomp( points, chunks, back_top_left_count, x_min, bisect_x, bisect_y + 1, y_max, bisect_z + 1,
-                               z_max, maxPointsPerVoxel);
-
-        int back_bottom_right_count = 
-            num_points_in_box(points, bisect_x + 1, x_max, y_min, bisect_y, bisect_z + 1, z_max);
-        octree_recurse_decomp( points, chunks, back_bottom_right_count, bisect_x + 1, x_max, y_min, bisect_y,
-                               bisect_z + 1, z_max, maxPointsPerVoxel);
-
-        int back_top_right_count = 
-            num_points_in_box(points, bisect_x + 1, x_max, bisect_y + 1, y_max, bisect_z, z_max);
-        octree_recurse_decomp( points, chunks, back_top_right_count, bisect_x + 1, x_max, bisect_y + 1, y_max, bisect_z,
-                               z_max, maxPointsPerVoxel);       
-
-    }
-    else {
-
-      Range rangeX = Range(x_min, x_max);
-      Range rangeY = Range(y_min, y_max);
-      Range rangeZ = Range(z_min, z_max);
-    
-      chunks.push_back( std::vector<Range>( { rangeX, rangeY, rangeZ } ) );
-    }
-    
 
 }
