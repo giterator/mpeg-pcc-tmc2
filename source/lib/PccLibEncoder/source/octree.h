@@ -16,8 +16,8 @@ using namespace pcc;
 
 //overwrite params_.numROIs_ since used for patch generation and packing
 
-int num_points_in_box( std::unordered_set<PCCPoint3D>& us_points_global,
-                       std::unordered_set<PCCPoint3D>& us_points_local,
+int num_points_in_box( std::vector<PCCPoint3D>&        points_global,
+                       std::vector<PCCPoint3D>& points_local,
                        int x_min,
                        int x_max,
                        int y_min,
@@ -25,37 +25,29 @@ int num_points_in_box( std::unordered_set<PCCPoint3D>& us_points_global,
                        int z_min,
                        int z_max ) {
   int count      = 0;
-
-  auto point = us_points_global.begin();
-  while (point != us_points_global.end()) {
-    auto x = (*point)[0];
-    auto y = (*point)[1];
-    auto z = (*point)[2];
+  
+  for ( int i = 0; i < points_global.size() && !points_global.empty(); i++ ) {
+    auto x = points_global[i][0];
+    auto y = points_global[i][1];
+    auto z = points_global[i][2];
 
     if ( x_min <= x && x <= x_max && y_min <= y && y <= y_max && z_min <= z && z <= z_max ) {
-        count++; 
-        us_points_local.insert( *point );
-        point = us_points_global.erase( point );
-    }
-    else {
-      point++;
+      count++;
+      points_local.push_back( points_global[i] );
+      
+      std::swap( points_global[i], *( points_global.end() - 1 ) );
+      points_global.pop_back();
+      i--;
+
+      
     }
   }
-
-  /*
-  for ( auto point : us_points ) {
-    auto x = point[0];
-    auto y = point[1];
-    auto z = point[2];
-
-    if ( x_min <= x && x <= x_max && y_min <= y && y <= y_max && z_min <= z && z <= z_max ) { count++; }
-  }*/
 
   return count;
 }
 
 
-void octree_recurse_decomp( std::unordered_set<PCCPoint3D>&  us_points,
+void octree_recurse_decomp( std::vector<PCCPoint3D>&         points,
                             std::vector<std::vector<Range>>& chunks,
                             int                              num_points,
                             int                              x_min,
@@ -70,59 +62,67 @@ void octree_recurse_decomp( std::unordered_set<PCCPoint3D>&  us_points,
     int bisect_y = ( y_min + y_max ) / 2;
     int bisect_z = ( z_min + z_max ) / 2;
 
-    std::unordered_set<PCCPoint3D> us_points_front_bottom_left;
+    std::vector<PCCPoint3D> points_front_bottom_left;
     int front_bottom_left_count = 
-        num_points_in_box( us_points, us_points_front_bottom_left, x_min, bisect_x, y_min, bisect_y, z_min, bisect_z );
-    octree_recurse_decomp( us_points, chunks, front_bottom_left_count, x_min, bisect_x, y_min, bisect_y, z_min, bisect_z,
+        num_points_in_box( points, points_front_bottom_left, x_min, bisect_x, y_min, bisect_y, z_min, bisect_z );
+    octree_recurse_decomp( points_front_bottom_left, chunks, front_bottom_left_count, x_min, bisect_x, y_min,
+                           bisect_y, z_min, bisect_z,
                            maxPointsPerVoxel );
 
-    std::unordered_set<PCCPoint3D> us_points_front_top_left;
+    std::vector<PCCPoint3D> points_front_top_left;
     int front_top_left_count = 
-        num_points_in_box( us_points, us_points_front_top_left, x_min, bisect_x, bisect_y + 1, y_max, z_min, bisect_z );
-    octree_recurse_decomp( us_points, chunks, front_top_left_count, x_min, bisect_x, bisect_y + 1, y_max, z_min,
+        num_points_in_box( points, points_front_top_left, x_min, bisect_x, bisect_y + 1, y_max, z_min, bisect_z );
+    octree_recurse_decomp( points_front_top_left, chunks, front_top_left_count, x_min, bisect_x, bisect_y + 1, y_max,
+                           z_min,
                            bisect_z,
                            maxPointsPerVoxel );
 
-    std::unordered_set<PCCPoint3D> us_points_front_bottom_right;
+    std::vector<PCCPoint3D> points_front_bottom_right;
     int front_bottom_right_count = 
-        num_points_in_box( us_points, us_points_front_bottom_right, bisect_x + 1, x_max, y_min,
+        num_points_in_box( points, points_front_bottom_right, bisect_x + 1, x_max, y_min,
                                                       bisect_y, z_min, bisect_z );
-    octree_recurse_decomp( us_points, chunks, front_bottom_right_count, bisect_x + 1, x_max, y_min, bisect_y, z_min,
+    octree_recurse_decomp( points_front_bottom_right, chunks, front_bottom_right_count, bisect_x + 1, x_max, y_min,
+                           bisect_y, z_min,
                            bisect_z, maxPointsPerVoxel );
 
-    std::unordered_set<PCCPoint3D> us_points_front_top_right;
+    std::vector<PCCPoint3D> points_front_top_right;
     int front_top_right_count = 
-        num_points_in_box( us_points, us_points_front_top_right, bisect_x + 1, x_max,
+        num_points_in_box( points, points_front_top_right, bisect_x + 1, x_max,
                                                    bisect_y + 1, y_max, z_min, bisect_z );
-    octree_recurse_decomp( us_points, chunks, front_top_right_count, bisect_x + 1, x_max, bisect_y + 1, y_max, z_min,
+    octree_recurse_decomp( points_front_top_right, chunks, front_top_right_count, bisect_x + 1, x_max, bisect_y + 1,
+                           y_max, z_min,
                            bisect_z, maxPointsPerVoxel );
 
-    std::unordered_set<PCCPoint3D> us_points_back_bottom_left;
+    std::vector<PCCPoint3D> points_back_bottom_left;
     int back_bottom_left_count = 
-        num_points_in_box( us_points, us_points_back_bottom_left, x_min, bisect_x, y_min, bisect_y, bisect_z + 1, z_max );
-    octree_recurse_decomp( us_points, chunks, back_bottom_left_count, x_min, bisect_x, y_min, bisect_y, bisect_z + 1,
-                           z_max, maxPointsPerVoxel );
-
-    std::unordered_set<PCCPoint3D> us_points_back_top_left;
-    int back_top_left_count = 
-        num_points_in_box( us_points, us_points_back_top_left, x_min, bisect_x, bisect_y + 1, y_max,
-                                                 bisect_z + 1, z_max );
-    octree_recurse_decomp( us_points, chunks, back_top_left_count, x_min, bisect_x, bisect_y + 1, y_max, bisect_z + 1,
-                           z_max, maxPointsPerVoxel );
-
-    std::unordered_set<PCCPoint3D> us_points_back_bottom_right;
-    int back_bottom_right_count = 
-        num_points_in_box( us_points, us_points_back_bottom_right, bisect_x + 1, x_max, y_min,
-                                                     bisect_y, bisect_z + 1, z_max );
-    octree_recurse_decomp( us_points, chunks, back_bottom_right_count, bisect_x + 1, x_max, y_min, bisect_y,
+        num_points_in_box( points, points_back_bottom_left, x_min, bisect_x, y_min, bisect_y, bisect_z + 1, z_max );
+    octree_recurse_decomp( points_back_bottom_left, chunks, back_bottom_left_count, x_min, bisect_x, y_min, bisect_y,
                            bisect_z + 1,
                            z_max, maxPointsPerVoxel );
 
-    std::unordered_set<PCCPoint3D> us_points_back_top_right;
+    std::vector<PCCPoint3D> points_back_top_left;
+    int back_top_left_count = 
+        num_points_in_box( points, points_back_top_left, x_min, bisect_x, bisect_y + 1, y_max,
+                                                 bisect_z + 1, z_max );
+    octree_recurse_decomp( points_back_top_left, chunks, back_top_left_count, x_min, bisect_x, bisect_y + 1, y_max,
+                           bisect_z + 1,
+                           z_max, maxPointsPerVoxel );
+
+    std::vector<PCCPoint3D> points_back_bottom_right;
+    int back_bottom_right_count = 
+        num_points_in_box( points, points_back_bottom_right, bisect_x + 1, x_max, y_min,
+                                                     bisect_y, bisect_z + 1, z_max );
+    octree_recurse_decomp( points_back_bottom_right, chunks, back_bottom_right_count, bisect_x + 1, x_max, y_min,
+                           bisect_y,
+                           bisect_z + 1,
+                           z_max, maxPointsPerVoxel );
+
+    std::vector<PCCPoint3D> points_back_top_right;
     int back_top_right_count = 
-        num_points_in_box( us_points, us_points_back_top_right, bisect_x + 1, x_max, bisect_y + 1,
+        num_points_in_box( points, points_back_top_right, bisect_x + 1, x_max, bisect_y + 1,
                                                   y_max, bisect_z, z_max );
-    octree_recurse_decomp( us_points, chunks, back_top_right_count, bisect_x + 1, x_max, bisect_y + 1, y_max, bisect_z,
+    octree_recurse_decomp( points_back_top_right, chunks, back_top_right_count, bisect_x + 1, x_max, bisect_y + 1,
+                           y_max, bisect_z,
                            z_max, maxPointsPerVoxel );
 
   } else {
@@ -183,11 +183,11 @@ void octree_decomp(const PCCPointSet3&                 points,
         z_max = ( z > z_max ) ? z : z_max;
     }
 
-    std::unordered_set<PCCPoint3D> us_points;
-    for ( int i = 0; i < points.getPointCount(); i++) us_points.insert( points[i] );
+    std::vector<PCCPoint3D> vec_points;
+    for ( int i = 0; i < points.getPointCount(); i++ ) vec_points.push_back( points[i] );
 
     //Divide PC into voxels
-    octree_recurse_decomp( us_points, chunks, num_points, x_min, x_max, y_min, y_max, z_min, z_max,
+    octree_recurse_decomp( vec_points, chunks, num_points, x_min, x_max, y_min, y_max, z_min, z_max,
                            userParams.maxPointsPerVoxelOctree );
 
     //OVERWRITE user defined numROIs

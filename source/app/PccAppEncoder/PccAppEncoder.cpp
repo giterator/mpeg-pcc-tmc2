@@ -1122,6 +1122,9 @@ int main( int argc, char* argv[] ) {
   encoderParams.maxPointsPerVoxelOctree = INT_MAX;
   PCCMetricsParameters metricsParams;
   if ( !parseParameters( argc, argv, encoderParams, metricsParams ) ) { return -1; }
+  //
+  //std::cout << "maxPointsPerVoxelOctree parsed as: " << encoderParams.maxPointsPerVoxelOctree << std::endl << std::endl;
+  //
   if ( encoderParams.nbThread_ > 0 ) { tbb::task_scheduler_init init( static_cast<int>( encoderParams.nbThread_ ) ); }
 
   // Timers to count elapsed wall/user time
