@@ -892,6 +892,8 @@ void PCCPatchSegmenter3::segmentPatches( const PCCPointSet3&                 poi
       std::sort( connectedComponents.begin(), connectedComponents.end(),
                  []( const std::vector<size_t>& a, const std::vector<size_t>& b ) { return a.size() >= b.size(); } );
     }
+
+    //Each connectedComponent is a vector of indexes of points that belong to it. Patch is generated from this info
     for ( auto& connectedComponent : connectedComponents ) {
       const size_t patchIndex = patches.size();
       patches.resize( patchIndex + 1 );

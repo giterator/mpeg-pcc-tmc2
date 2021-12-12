@@ -375,7 +375,7 @@ class PCCPatch {
   size_t                  normalAxis_;     // x
   size_t                  tangentAxis_;    // y
   size_t                  bitangentAxis_;  // z
-  std::vector<int16_t>    depth_[2];       // depth
+  std::vector<int16_t>    depth_[2];       // depth - near & far layers. Near layer depth is index 0. Far layer depth is index 1
   std::vector<bool>       occupancy_;      // occupancy map
   size_t                  viewId_;         // viewId in [0,1,2,3,4,5]
   int32_t                 bestMatchIdx_;   // index of matched patch from pre-frame patch.

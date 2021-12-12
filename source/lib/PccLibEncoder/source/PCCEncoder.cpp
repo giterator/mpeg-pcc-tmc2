@@ -3587,7 +3587,7 @@ PCCVector3D PCCEncoder::calculateWeightNormal( size_t geometryBitDepth3D, const 
 bool PCCEncoder::generateScaledGeometry( PCCFrameContext& title ) {
   auto& patches = title.getPatches();
   std::sort( patches.begin(), patches.end() );
-  for ( size_t i = 0; i < 3; i++ ) {
+  for ( size_t i = 0; i < patches.size(); i++ ) { //i < 3 was the old condition i.e. downsampling was done only for the 3 largest patches
     std::vector<int16_t> depth[2];  // depth
     size_t               scaleSizeU = patches[i].getSizeU() / params_.levelOfDetailX_;
     size_t               scaleSizeV = patches[i].getSizeV() / params_.levelOfDetailY_;
