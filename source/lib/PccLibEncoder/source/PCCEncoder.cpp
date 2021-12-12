@@ -5499,6 +5499,13 @@ bool PCCEncoder::resizeGeometryVideo( PCCContext& context, PCCCodecId codecId ) 
       frame.setPartitionHeight( maxHeight, 0 );
     }
   }
+
+  ///////////////////////////////////////////////////////////////////
+  cout << "----------------------------Max Frame Dimensions After Packing-----------------------------------"<<endl;
+  cout << "frame max width: " << maxWidth << endl;
+  cout << "frame max height: " << maxHeight << endl;
+  cout << "-------------------------------------------------------------------------------------------------"<<endl;
+  ///////////////////////////////////////////////////////////////////
   return true;
 }
 
