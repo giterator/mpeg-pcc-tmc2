@@ -30,6 +30,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 #include "PCCCommon.h"
 #include "PCCHighLevelSyntax.h"
 #include "PCCBitstream.h"
@@ -46,6 +47,7 @@
 #include "PCCChrono.h"
 #include "PCCEncoder.h"
 #include "PCCEncoderConstant.h"
+#include "octree.h"
 
 using namespace std;
 using namespace pcc;
@@ -99,7 +101,9 @@ int PCCEncoder::encode( PCCGroupOfFrames& sources, PCCContext& context, PCCGroup
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////
   // 3DD
-  //threeDD_voxel_grid_filter(sources, context.getFrames().size());
+  if ( params_.threeDD ) {
+    threeDD_voxel_grid_filter( sources, context.getFrames().size(), params_ );
+  }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Segmentation
   generateSegments( sources, context );
