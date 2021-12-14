@@ -46,6 +46,7 @@
 #include "PCCChrono.h"
 #include "PCCEncoder.h"
 #include "PCCEncoderConstant.h"
+#include "octree.h"
 
 using namespace std;
 using namespace pcc;
@@ -66,7 +67,7 @@ PCCEncoder::~PCCEncoder() = default;
 
 void PCCEncoder::setParameters( const PCCEncoderParameters& params ) { params_ = params; }
 
-int PCCEncoder::encode( const PCCGroupOfFrames& sources, PCCContext& context, PCCGroupOfFrames& reconstructs ) {
+int PCCEncoder::encode( PCCGroupOfFrames& sources, PCCContext& context, PCCGroupOfFrames& reconstructs ) {
   size_t pointLocalReconstructionOriginal   = static_cast<size_t>( params_.pointLocalReconstruction_ );
   size_t layerCountMinus1Original           = params_.mapCountMinus1_;
   size_t singleMapPixelInterleavingOriginal = static_cast<size_t>( params_.singleMapPixelInterleaving_ );
@@ -99,7 +100,10 @@ int PCCEncoder::encode( const PCCGroupOfFrames& sources, PCCContext& context, PC
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////
   // 3DD
-  threeDD_voxel_grid_filter(sources, context.getFrames().size());
+  if ( params_.threeDD ) { 
+      //threeDD_voxel_grid_filter( sources, context.getFrames().size(), params_ );
+  }
+  
   //////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Segmentation
   generateSegments( sources, context );
