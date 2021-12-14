@@ -9,7 +9,7 @@
  */
 
 #include "octree.h"
-
+using namespace std;
 //overwrite params_.numROIs_ since used for patch generation and packing
 
 int num_points_in_box( std::vector<PCCPoint3D>&        points_global,
@@ -266,6 +266,7 @@ void threeDD_voxel_grid_filter( PCCGroupOfFrames& sources, int frameCount, PCCEn
   for ( int i = 0; i < frameCount; i++ ) {
     std::vector<PCCBox3D>           boundingBoxes;
     std::vector<std::vector<Range>> chunks = get_octree_decomp_chunks( sources[i], userParams );
+    cout << "DECOMP INTO CHUNKS IS DONE" << endl;
     for ( auto& chunk : chunks ) {
       PCCBox3D box;
       box.min_[0] = chunk[0].first;

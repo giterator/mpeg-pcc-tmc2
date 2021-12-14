@@ -626,6 +626,10 @@ void PCCEncoderParameters::print() {
     std::cout << "\t   shvcRateX                              " << shvcRateX_ << std::endl;
     std::cout << "\t   shvcRateY                              " << shvcRateY_ << std::endl;
   }
+  std::cout << "//////////////////////////New Params//////////////////////////////////////////" << std::endl;
+  std::cout << "maxPointsPerVoxelOctree                       " << maxPointsPerVoxelOctree <<std::endl;
+  std::cout << "threeDDPointsPerVoxel                         " << threeDDPointsPerVoxel << std::endl;
+  std::cout << "threeDD                                       " << threeDD << std::endl;
   std::cout << std::endl;
 }
 
