@@ -35,6 +35,7 @@
 #include "PCCContext.h"
 #include "PCCFrameContext.h"
 #include "PCCVirtualVideoEncoder.h"
+#include <climits>
 using namespace pcc;
 
 const std::vector<PointLocalReconstructionMode> g_pointLocalReconstructionMode = {

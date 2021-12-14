@@ -216,8 +216,8 @@ void octree_decomp(const PCCPointSet3&                 points,
 }
 
 //////////////////3DD using vooxel grid filter///////////////////////////////////////////
-void threeDD_voxel_grid_filter( const PCCGroupOfFrames& sources, int frameCount, PCCEncoderParameters& userParams ) {
+/*void threeDD_voxel_grid_filter( const PCCGroupOfFrames& sources, int frameCount, PCCEncoderParameters& userParams ) {
   for ( int i = 0; i < frameCount; i++ ) { octree_decomp( sources[i], userParams ); }
     
 
-}
+}*/

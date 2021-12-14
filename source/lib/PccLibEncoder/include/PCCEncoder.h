@@ -117,7 +117,7 @@ class PCCEncoder : public PCCCodec {
   ~PCCEncoder();
   void setParameters( const PCCEncoderParameters& params );
 
-  int encode( const PCCGroupOfFrames& sources, PCCContext& context, PCCGroupOfFrames& reconstructs );
+  int encode( PCCGroupOfFrames& sources, PCCContext& context, PCCGroupOfFrames& reconstructs );
 
   void setPostProcessingSeiParameters( GeneratePointCloudParameters& params, PCCContext& context );
   void setGeneratePointCloudParameters( GeneratePointCloudParameters& gpcParams, PCCContext& context );
