@@ -96,6 +96,11 @@ int PCCEncoder::encode( const PCCGroupOfFrames& sources, PCCContext& context, PC
     frameContext.setLog2PatchQuantizerSizeY( params_.log2QuantizerSizeY_ );
   }
 
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // 3DD
+  threeDD_voxel_grid_filter(sources, context.getFrames().size());
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Segmentation
   generateSegments( sources, context );
 

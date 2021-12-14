@@ -274,6 +274,13 @@ PCCEncoderParameters::PCCEncoderParameters() {
   shvcLayerIndex_ = 8;
   shvcRateX_      = 0;
   shvcRateY_      = 0;
+
+
+  //////////////////////NEW PARAMS/////////////////////////////////////
+  maxPointsPerVoxelOctree = INT_MAX;
+  threeDD                 = false;
+  threeDDPointsPerVoxel   = 1;
+  /////////////////////////////////////////////////////////////////////
 }
 
 PCCEncoderParameters::~PCCEncoderParameters() = default;

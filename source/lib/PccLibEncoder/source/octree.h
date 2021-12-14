@@ -11,6 +11,7 @@
 
 
 #include "PCCCommon.h"
+#include "PCCGroupOfFrames.h"
 #include<unordered_set>
 using namespace pcc;
 
@@ -211,5 +212,12 @@ void octree_decomp(const PCCPointSet3&                 points,
         roiBoundingBoxMinZ.push_back( chunks[i][2].first ); //min z
         roiBoundingBoxMaxZ.push_back( chunks[i][2].second ); //max z
     }
+
+}
+
+//////////////////3DD using vooxel grid filter///////////////////////////////////////////
+void threeDD_voxel_grid_filter( const PCCGroupOfFrames& sources, int frameCount, PCCEncoderParameters& userParams ) {
+  for ( int i = 0; i < frameCount; i++ ) { octree_decomp( sources[i], userParams ); }
+    
 
 }

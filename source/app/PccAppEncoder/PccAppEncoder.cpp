@@ -281,6 +281,16 @@ bool parseParameters( int                   argc,
       encoderParams.maxPointsPerVoxelOctree,
       encoderParams.maxPointsPerVoxelOctree,
       "Maximum number of points per voxel in the octree decomposition" )
+
+    ( "threeDDPointsPerVoxel",
+      encoderParams.threeDDPointsPerVoxel,
+      encoderParams.threeDDPointsPerVoxel,
+      "For 3DD: Maximum number of points per voxel in the octree decomposition" )
+
+    ( "threeDD",
+      encoderParams.threeDD,
+      encoderParams.threeDD,
+      "Boolean: True if 3DD to be performed, else false" )
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // packing
@@ -1119,7 +1129,7 @@ int main( int argc, char* argv[] ) {
   std::cout << "PccAppEncoder v" << TMC2_VERSION_MAJOR << "." << TMC2_VERSION_MINOR << std::endl << std::endl;
 
   PCCEncoderParameters encoderParams;
-  encoderParams.maxPointsPerVoxelOctree = INT_MAX;
+  //encoderParams.maxPointsPerVoxelOctree = INT_MAX; //alr done in constructor
   PCCMetricsParameters metricsParams;
   if ( !parseParameters( argc, argv, encoderParams, metricsParams ) ) { return -1; }
   //
