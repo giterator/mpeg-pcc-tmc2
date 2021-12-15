@@ -71,7 +71,7 @@
     --reconstructedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/reconstructed/test_rec_3DD_1051.ply \
     --compressedStreamPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/test_vox10_ai.bin \
     --enablePointCloudPartitioning \
-    --maxPointsPerVoxelOctree=400000
+    --maxPointsPerVoxelOctree=2
     
 
 
