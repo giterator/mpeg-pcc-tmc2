@@ -31,7 +31,7 @@ int num_points_in_box( std::vector<pair<PCCPoint3D, PCCColor3B>>& points_global,
       count++;
       points_local.push_back( points_global[i] );
       
-      std::swap( points_global[i], *( points_global.end() - 1 ) );
+      std::swap( points_global[i], points_global[points_global.size() - 1] );
       points_global.pop_back();
       i--;
 
@@ -121,7 +121,7 @@ void octree_recurse_decomp( std::vector<pair<PCCPoint3D, PCCColor3B>>& points,
 
     chunks.push_back( std::vector<Range>( { rangeX, rangeY, rangeZ } ) );
 
-    if ( threeDD ) {
+    if ( threeDD && points.size() > 0) { //AVOIDS ADDING ORIGIN POINT TO CENTROIDS IF THE VOXEL IS EMPTY
       centroids.push_back( get_centroid( points ) );
     }
   }
@@ -280,7 +280,7 @@ void threeDD_voxel_grid_filter( PCCGroupOfFrames& sources, int frameCount, PCCEn
   for ( int i = 0; i < frameCount; i++ ) {
     //std::vector<PCCBox3D>           boundingBoxes;
     std::vector<pair<PCCPoint3D, PCCColor3B>> centroids = get_octree_decomp_centroids( sources[i], userParams );
-    //cout << "NUMBER OF CENTROIDS:      " << centroids.size() << endl;
+    cout << "NUMBER OF CENTROIDS / no. of points:      " << centroids.size() << " / "<< sources[i].getPointCount()<<endl;
     /*for ( auto& chunk : chunks ) {
       PCCBox3D box;
       box.min_[0] = chunk[0].first;
