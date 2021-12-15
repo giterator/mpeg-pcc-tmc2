@@ -69,7 +69,7 @@
     --videoEncoderGeometryPath=bin/PccAppVideoEncoder \
     --videoEncoderAttributePath=bin/PccAppVideoEncoder \
     --reconstructedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/reconstructed/test_rec_3DD_1051.ply \
-    --compressedStreamPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/test_vox10_ai.bin \
+    --compressedStreamPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/test_3DD_1051.bin \
     --enablePointCloudPartitioning \
     --maxPointsPerVoxelOctree=2
     

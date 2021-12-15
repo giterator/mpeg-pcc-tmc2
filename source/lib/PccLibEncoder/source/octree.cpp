@@ -275,36 +275,35 @@ std::pair<PCCPoint3D, PCCColor3B> get_centroid( std::vector<pair<PCCPoint3D, PCC
   return std::make_pair( avg_geometry, avg_colour );
 }
 
-// averages geometry and colour of points in the same voxel
+// averages geometry and colour of points in the same voxel for GOF
 void threeDD_voxel_grid_filter( PCCGroupOfFrames& sources, int frameCount, PCCEncoderParameters& userParams ) {
   for ( int i = 0; i < frameCount; i++ ) {
-    //std::vector<PCCBox3D>           boundingBoxes;
+
+    /*int num = sources[i].getPointCount();
+    PCCPointSet3 downsampled_points;
+    for ( int j = 0; j < num / 2; j++ ) downsampled_points.addPoint(sources[i][j], sources[i].getColor(j));*/
+
+    
     std::vector<pair<PCCPoint3D, PCCColor3B>> centroids = get_octree_decomp_centroids( sources[i], userParams );
-    cout << "NUMBER OF CENTROIDS / no. of points:      " << centroids.size() << " / "<< sources[i].getPointCount()<<endl;
-    /*for ( auto& chunk : chunks ) {
-      PCCBox3D box;
-      box.min_[0] = chunk[0].first;
-      box.max_[0] = chunk[0].second;
-      box.min_[1] = chunk[1].first;
-      box.max_[1] = chunk[1].second;
-      box.min_[2] = chunk[2].first;
-      box.max_[2] = chunk[2].second;
-      boundingBoxes.push_back( box );
-    }
-    cout << "GEN BOUNDING BOXS DONE" << endl;
-    std::vector<std::vector<int>> indexes;
-    indexes.resize( boundingBoxes.size() );
-    for ( int j = 0; j < sources[i].getPointCount(); j++ ) {
-      for ( int k = 0; k < boundingBoxes.size(); k++ ) {
-        if ( boundingBoxes[k].fullyContains( sources[i][j] ) ) { indexes[k].push_back( j ); }
-      }
-    }
-    cout << "GET INDEXES FOR EACH BOUNDING BOX DONE" << endl;*/
+    /*
     PCCPointSet3 downsampled_points;
     for ( auto &point : centroids ) {
       downsampled_points.addPoint( point.first, point.second );  // geometry and attribute of centroid
     }
+
+    cout << "NUMBER OF CENTROIDS / no. of points:      " << downsampled_points.getPointCount() << " / "
+         << sources[i].getPointCount() << endl;
+
     sources[i] = downsampled_points;
-    //cout << "REPLACE OLD FRAME DONE" << endl;
+    */
+
+    int init_point_count = sources[i].getPointCount();
+    sources[i].resize(0);
+    for ( auto& point : centroids ) { 
+        sources[i].addPoint( point.first, point.second );
+    }
+    cout << "NUMBER OF CENTROIDS / no. of points:      " << sources[i].getPointCount() 
+        << " / " << init_point_count << endl;
+ 
   }
 }

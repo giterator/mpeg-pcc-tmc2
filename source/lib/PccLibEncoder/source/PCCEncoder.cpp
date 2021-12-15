@@ -3655,6 +3655,9 @@ bool PCCEncoder::generateSegments( const PCCPointSet3&                 source,
                                    size_t                              frameIndex,
                                    float&                              distanceSrcRec ) {
   if ( source.getPointCount() == 0u ) { return true; }
+  ////////////////////////////////////////////////////////////////////////
+  std::cout << "source[i] point count: " << source.getPointCount() << std::endl;
+  ////////////////////////////////////////////////////////////////////////
   auto& frame = frameContext.getTitleFrameContext();
   if ( segmenterParams.additionalProjectionPlaneMode_ != 5 ) {
     auto& patches = frame.getPatches();
