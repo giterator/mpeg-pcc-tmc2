@@ -279,23 +279,22 @@ std::pair<PCCPoint3D, PCCColor3B> get_centroid( std::vector<pair<PCCPoint3D, PCC
 void threeDD_voxel_grid_filter( PCCGroupOfFrames& sources, int frameCount, PCCEncoderParameters& userParams ) {
   for ( int i = 0; i < frameCount; i++ ) {
 
-    /*int num = sources[i].getPointCount();
-    PCCPointSet3 downsampled_points;
-    for ( int j = 0; j < num / 2; j++ ) downsampled_points.addPoint(sources[i][j], sources[i].getColor(j));*/
+    
+    /*PCCPointSet3 downsampled_points;
+    //for ( int j = 0; j < sources[i].getPointCount() / 2; j++ ) downsampled_points.addPoint(sources[i][j], sources[i].getColor(j));
+    for ( int j = 1; j < sources[i].getPointCount(); j+=2 )
+      downsampled_points.addPoint( ( sources[i][j]/2 + sources[i][j - 1]/2 ),
+                                   ( sources[i].getColor( j )/2 + sources[i].getColor( j-1 )/2 ) );
+
+    cout << "NUMBER OF downsampled points / no. of points:      " << downsampled_points.getPointCount()
+        << " / " << sources[i].getPointCount() << endl;
+
+     sources[i] = downsampled_points;*/
+    
 
     
+      
     std::vector<pair<PCCPoint3D, PCCColor3B>> centroids = get_octree_decomp_centroids( sources[i], userParams );
-    /*
-    PCCPointSet3 downsampled_points;
-    for ( auto &point : centroids ) {
-      downsampled_points.addPoint( point.first, point.second );  // geometry and attribute of centroid
-    }
-
-    cout << "NUMBER OF CENTROIDS / no. of points:      " << downsampled_points.getPointCount() << " / "
-         << sources[i].getPointCount() << endl;
-
-    sources[i] = downsampled_points;
-    */
 
     int init_point_count = sources[i].getPointCount();
     sources[i].resize(0);
@@ -304,6 +303,8 @@ void threeDD_voxel_grid_filter( PCCGroupOfFrames& sources, int frameCount, PCCEn
     }
     cout << "NUMBER OF CENTROIDS / no. of points:      " << sources[i].getPointCount() 
         << " / " << init_point_count << endl;
- 
+    
+     
+
   }
 }
