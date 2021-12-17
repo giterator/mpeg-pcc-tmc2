@@ -51,7 +51,7 @@
 --levelOfDetailX=2 \    
 --levelOfDetailY=2 \ 
 --threeDD \ 
---threeDDPointsPerVoxel=2
+--threeDDPointsPerVoxel=500
 ////
 
 //runs w/o break
@@ -68,8 +68,8 @@
     --videoEncoderOccupancyPath=bin/PccAppVideoEncoder \
     --videoEncoderGeometryPath=bin/PccAppVideoEncoder \
     --videoEncoderAttributePath=bin/PccAppVideoEncoder \
-    --reconstructedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/reconstructed/test_rec_3DD_1051.ply \
-    --compressedStreamPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/test_3DD_1051.bin \
+    --reconstructedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/reconstructed/test_rec_3DD_500_1051.ply \
+    --compressedStreamPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/test_3DD_500_1051.bin \
     --enablePointCloudPartitioning \
     --maxPointsPerVoxelOctree=2
     

@@ -1,0 +1,13 @@
+PCCArena commands
+
+###
+the setup_env_ds.sh file breaks partially through the setup. need to manually go through the remaining commands
+###
+
+python ply_compare.py /mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/reconstructed/test_rec_1051.ply /mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/reconstructed/test_rec_3DD_1051.ply /mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/test_3DD_1051.bin /mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/reconstructed/rec_1051_CMP_rec_3DD_1051
+
+
+python ply_compare.py /mnt/d/NUS
+/Volumetric_Video_Streaming_UROP/test_data/reconstructed/test_rec_1051.ply /mnt/d/NUS/Volumetric_Video_Streaming_UROP/te
+st_data/reconstructed/test_rec_2DD_1051.ply /mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/test_2DD_105
+1.bin /mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/reconstructed/rec_1051_CMP_rec_2DD_1051
