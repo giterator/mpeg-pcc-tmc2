@@ -23,7 +23,7 @@
 
 
 //edited format
-//reconstructedDataPath seems to contain the "decompressed" PC. 
+//reconstructedDataPath seems to contain the "decompressed" PC -> only correct for single ply compression
 // MUST have gemotryconfig, attribute config, occupancy map settings, 
 //     --colorSpaceConversionPath=bin/PccAppColorConverter  MAY CAUSE BREAK BECAUSE OF SETTING ISSUES - MIGHT REQUIRE 2 FRAMES MIN TO USE THIS
 
@@ -47,12 +47,27 @@
 
 
 
+
+STABLE SETTINGS:
+
+To do 3DD: must enable --threeDDPointsPerVoxel=500, --threeDD
+To do 2DD (standard VPCC 2DD i.e. subsampling): must enable --levelOfDetailX=2, --levelOfDetailY=2
+
+To do octree decomposition for ROI generation: --enablePointCloudPartitioning, --maxPointsPerVoxelOctree=2 //DO NOT SPECIFY --threeDD
+
+WHEN COPYING COMMAND, MAKE SURE threeDDPointsPerVoxel IS NOT THE LAST AS THE PARAM GETS IGNORED
 //// 
 --levelOfDetailX=2 \    
 --levelOfDetailY=2 \ 
+
 --threeDD \ 
 --threeDDPointsPerVoxel=500
+
+--enablePointCloudPartitioning \
+--maxPointsPerVoxelOctree=2
 ////
+--uncompressedDataFolder=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/subset/ \
+--uncompressedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/longdress_vox10_1051.ply \
 
 //runs w/o break
 ./bin/PccAppEncoder \
@@ -60,18 +75,41 @@
     --config=cfg/common/ctc-common.cfg \
     --config=cfg/condition/ctc-all-intra.cfg \
     --config=cfg/rate/ctc-r3.cfg \
-    --uncompressedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/longdress_vox10_1051.ply \
-    --frameCount=1 \
-    --groupOfFramesSize=1 \
+    --nbThread=32 \
+    --uncompressedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/subset/longdress_vox10_%04d.ply \
+    --groupOfFramesSize=2 \
     --resolution=1023 \
     --colorTransform=0 \
     --videoEncoderOccupancyPath=bin/PccAppVideoEncoder \
     --videoEncoderGeometryPath=bin/PccAppVideoEncoder \
     --videoEncoderAttributePath=bin/PccAppVideoEncoder \
-    --reconstructedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/reconstructed/test_rec_3DD_500_1051.ply \
-    --compressedStreamPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/test_3DD_500_1051.bin \
-    --enablePointCloudPartitioning \
-    --maxPointsPerVoxelOctree=2
+    --keepIntermediateFiles \
+    --startFrameNumber=1051 \
+    --reconstructedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/reconstructed/test_rec_3DD_2_%04d.ply \
+    --compressedStreamPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/test_rec_3DD_2.bin \
+    --threeDDPointsPerVoxel=2 \
+    --threeDD
+
+
+./bin/PccAppDecoder \
+    --nbThread=32 \
+    --compressedStreamPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/test_3DD_2_1051.bin \
+    --inverseColorSpaceConversionConfig=cfg/hdrconvert/yuv420torgb444.cfg \
+    --colorTransform=0 \
+    --uncompressedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/longdress_vox10_1051.ply \
+    --videoDecoderOccupancyPath=bin/PccAppVideoDecoder \
+    --videoDecoderGeometryPath=bin/PccAppVideoDecoder \
+    --videoDecoderAttributePath=bin/PccAppVideoDecoder \
+    --reconstructedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/decompressed/test_dec_3DD_2_1051.ply
+
+
+    
+    
+    
+    
+    
+
+    
     
 
 

@@ -1,0 +1,8 @@
+Imagemagick has been installed on WINDOWS -> USE COMMAND PROMPT NOT WSL
+
+../../magick logo: logo.gif
+./magick 
+
+magick logo: logo.gif
+identify logo.gif
+display logo.gif
