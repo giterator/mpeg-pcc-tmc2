@@ -104,6 +104,13 @@ int PCCEncoder::encode( PCCGroupOfFrames& sources, PCCContext& context, PCCGroup
   if ( params_.threeDD ) {
     //std::cout << "3D Downsampling in progress" << std::endl;
     threeDD_voxel_grid_filter( sources, context.getFrames().size(), params_ );
+    /*
+    size_t frameIdx = 0;
+    bool res = sources.write( "/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/subset/longdress_vox10_3DD_2_ori_1051_%04d.ply",
+                   frameIdx );
+    cout << "3DD_2 written to file: " << res << endl;
+    return 0; //seg fault expected as this only stores the downsampled ply
+    */
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Segmentation
@@ -342,7 +349,7 @@ int PCCEncoder::encode( PCCGroupOfFrames& sources, PCCContext& context, PCCGroup
     cout << "//////////////////////////////////////////////////////////////////////////////////////////////////////////"
             "/////"
          << endl;
-    cout << "No. of points in reconstructed frame "<< frameIdx << ": "<< reconstructs[frameIdx].getPointCount() << endl;
+    cout << "No. of points in reconstructed frame / no. of points in source"<< frameIdx << ": "<< reconstructs[frameIdx].getPointCount() << " / " << sources[frameIdx].getPointCount() << endl;
     cout << "//////////////////////////////////////////////////////////////////////////////////////////////////////////"
             "/////"
          << endl;
