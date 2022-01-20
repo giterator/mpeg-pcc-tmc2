@@ -1,8 +1,9 @@
 Imagemagick has been installed on WINDOWS -> USE COMMAND PROMPT NOT WSL
 
-../../magick logo: logo.gif
-./magick 
+Commands below generate 2 images -> Near and Far layers
 
-magick logo: logo.gif
-identify logo.gif
-display logo.gif
+To generate attribute png from reconstructed YUV: magick convert -size 1280x1280 -depth 8 test_vanilla_GOF0_attribute_rec_1280x1280_8bit_p420.yuv image.png
+
+To generate geometry png from reconstructed YUV: magick convert -size 1280x1280 -depth 8 test_vanilla_GOF0_geometry_rec_1280x1280_8bit_p420.yuv image.png
+
+To generate occupancy png from reconstructed YUV: magick convert -size 1280x1280 -depth 8 test_vanilla_GOF0_occupancy_rec_1280x1280_8bit_p420.yuv image.png

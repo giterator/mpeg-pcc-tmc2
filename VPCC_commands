@@ -58,10 +58,12 @@ WHEN COPYING COMMAND, MAKE SURE threeDDPointsPerVoxel IS NOT THE LAST AS THE PAR
     --frameCount=1 \
     --computeChecksum=0 \
     --computeMetrics=0 \
-    --reconstructedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/reconstructed/3DD_2_1051/test_3DD_2_%04d.ply \
-    --compressedStreamPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/3DD_2_1051/test_3DD_2.bin \
+    --reconstructedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/reconstructed/vanilla/test_vanilla_%04d.ply \
+    --compressedStreamPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/vanilla/test_vanilla.bin \
+    --occupancyPrecision=4 \
     --threeDDPointsPerVoxel=2 \
     --threeDD
+    
   
 
 
@@ -69,12 +71,12 @@ WHEN COPYING COMMAND, MAKE SURE threeDDPointsPerVoxel IS NOT THE LAST AS THE PAR
 */
 ./bin/PccAppDecoder \
     --nbThread=32 \
-    --compressedStreamPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/3DD_2_1051/test_3DD_2.bin \
+    --compressedStreamPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/vanilla/test_vanilla.bin \
     --inverseColorSpaceConversionConfig=cfg/hdrconvert/yuv420torgb444.cfg \
     --colorTransform=0 \
     --computeMetrics=0 \
     --computeChecksum=0 \
-    --reconstructedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/decompressed/3DD_2_1051/test_3DD_2_%04d.ply
+    --reconstructedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/decompressed/vanilla/test_vanilla_%04d.ply
 
 
     
