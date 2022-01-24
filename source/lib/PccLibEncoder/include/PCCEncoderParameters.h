@@ -126,6 +126,7 @@ class PCCEncoderParameters {
   int maxPointsPerVoxelOctree;
   int threeDDPointsPerVoxel;
   bool threeDD;
+  int  downscalePC;
   //////////////////////////////////////////////////////
 
   // occupancy map encoding

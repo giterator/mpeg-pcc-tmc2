@@ -161,6 +161,12 @@ bool parseParameters( int                       argc,
 	    decoderParams.shvcLayerIndex_,
 	    decoderParams.shvcLayerIndex_,
      "Decode Layer ID number using SHVC codec")
+              /////////////////////////////////////////////// NEW PARAMS //////////////////////////////////////////////
+        ( "upscalePC", 
+      decoderParams.upscalePC, 
+      decoderParams.upscalePC,
+      "Factor by which to upscale reconstructed PC geometry")
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // visual quality
     ( "patchColorSubsampling",

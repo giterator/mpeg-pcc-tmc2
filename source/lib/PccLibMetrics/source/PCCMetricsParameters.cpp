@@ -84,6 +84,7 @@ void PCCMetricsParameters::print() {
   std::cout << "\t   computeLidar                         " << computeLidar_ << std::endl;
   std::cout << "\t   computeReflectance                   " << computeReflectance_ << std::endl;
   std::cout << "\t   computeHausdorff                     " << computeHausdorff_ << std::endl;
+
   std::cout << std::endl;
 }
 

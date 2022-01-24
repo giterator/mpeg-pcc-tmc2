@@ -42,6 +42,10 @@
 #include <tbb/tbb.h>
 #include "PCCDecoder.h"
 
+////////////////////////////////////////////////////////////
+#include"upscale_pc.h"
+////////////////////////////////////////////////////////////
+
 using namespace pcc;
 using namespace std;
 
@@ -479,6 +483,13 @@ int PCCDecoder::decode( PCCContext& context, PCCGroupOfFrames& reconstructs, int
     for ( auto& c : checksum ) { TRACE_RECFRAME( "%02x", c ); }
     TRACE_RECFRAME( "\n" );
   }
+
+
+   ////////////////////////////////////////////////////////////////////////////////
+  // upscale PC
+  upscale_pc( reconstructs, reconstructs.getFrameCount(), params_.upscalePC );
+  ////////////////////////////////////////////////////////////////////////////////
+
   return 0;
 }
 

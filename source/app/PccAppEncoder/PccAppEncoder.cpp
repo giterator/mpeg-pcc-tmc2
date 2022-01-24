@@ -291,6 +291,11 @@ bool parseParameters( int                   argc,
       encoderParams.threeDD,
       encoderParams.threeDD,
       "Boolean: True if 3DD to be performed, else false" )
+
+    ( "downscalePC",
+      encoderParams.downscalePC,
+      encoderParams.downscalePC,
+      "Factor by which the PC geometry should be downscaled" )
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // packing

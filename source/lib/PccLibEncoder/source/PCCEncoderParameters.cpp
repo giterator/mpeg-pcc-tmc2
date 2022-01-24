@@ -281,6 +281,7 @@ PCCEncoderParameters::PCCEncoderParameters() {
   //////////////////////NEW PARAMS/////////////////////////////////////
   maxPointsPerVoxelOctree = INT_MAX;
   threeDD                 = false;
+  downscalePC             = 1;
   threeDDPointsPerVoxel   = 1;
   /////////////////////////////////////////////////////////////////////
 }
@@ -630,6 +631,8 @@ void PCCEncoderParameters::print() {
   std::cout << "maxPointsPerVoxelOctree                       " << maxPointsPerVoxelOctree <<std::endl;
   std::cout << "threeDDPointsPerVoxel                         " << threeDDPointsPerVoxel << std::endl;
   std::cout << "threeDD                                       " << threeDD << std::endl;
+  std::cout << "downscalePC:                                  " << downscalePC << std::endl;
+
   std::cout << std::endl;
 }
 

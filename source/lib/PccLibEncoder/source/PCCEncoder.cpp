@@ -48,6 +48,7 @@
 #include "PCCEncoder.h"
 #include "PCCEncoderConstant.h"
 #include "octree.h"
+#include "downscale_pc.h"
 
 using namespace std;
 using namespace pcc;
@@ -112,6 +113,10 @@ int PCCEncoder::encode( PCCGroupOfFrames& sources, PCCContext& context, PCCGroup
     return 0; //seg fault expected as this only stores the downsampled ply
     */
   }
+  
+  //Downscale geometry of PC ; Colours remain the same
+  downscale_pc( sources, context.getFrames().size(), params_.downscalePC);
+
   //////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Segmentation
   generateSegments( sources, context );

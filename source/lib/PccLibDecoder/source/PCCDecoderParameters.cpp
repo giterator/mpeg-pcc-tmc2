@@ -62,6 +62,10 @@ PCCDecoderParameters::PCCDecoderParameters() {
 
   patchColorSubsampling_ = false;
   shvcLayerIndex_        = 8;
+  
+  ////////////////////////////////////////////////////////////////
+  upscalePC = 1;
+  ////////////////////////////////////////////////////////////////
 }
 
 PCCDecoderParameters::~PCCDecoderParameters() = default;
@@ -81,6 +85,9 @@ void PCCDecoderParameters::print() {
   std::cout << "\t   inverseColorSpaceConversionConfig " << inverseColorSpaceConversionConfig_ << std::endl;
   std::cout << "\t   patchColorSubsampling             " << patchColorSubsampling_ << std::endl;
   std::cout << "\t   shvcLayerIndex                    " << shvcLayerIndex_ << std::endl;
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  std::cout << "\t upscalePC                           " << upscalePC << std::endl;
+  //////////////////////////////////////////////////////////////////////////////////////////////////
 }
 
 void PCCDecoderParameters::completePath() {}
