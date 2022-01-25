@@ -51,6 +51,10 @@
 #include <program_options_lite.h>
 #include <tbb/tbb.h>
 
+///////////////////////////////////////////////////////////
+#include"upscale_pc.h"
+///////////////////////////////////////////////////////////
+
 using namespace std;
 using namespace pcc;
 using pcc::chrono::StopwatchUserTime;
@@ -363,6 +367,11 @@ int decompressVideo( PCCDecoderParameters&       decoderParams,
         conformance.check( conformanceParams );
       }
 #endif
+
+      ////////////////////////////////////////////////////////////////////////////////
+      // upscale PC
+      //upscale_pcs( reconstructs, reconstructs.getFrameCount(), decoderParams.upscalePC );
+      ////////////////////////////////////////////////////////////////////////////////
 
       if ( !decoderParams.reconstructedDataPath_.empty() ) {
         reconstructs.write( decoderParams.reconstructedDataPath_, frameNumber, decoderParams.nbThread_, true );

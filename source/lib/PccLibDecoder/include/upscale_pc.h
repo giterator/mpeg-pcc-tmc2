@@ -8,4 +8,6 @@
 using namespace pcc;
 using namespace std;
 
-void upscale_pc( PCCGroupOfFrames& reconstructs, int frameCount, int downscale_factor );
+void upscale_pcs( PCCGroupOfFrames& reconstructs, int frameCount, int downscale_factor );
+
+void upscale_pc( PCCPointSet3& reconstruct, int downscale_factor );

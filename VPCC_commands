@@ -77,7 +77,7 @@ WHEN COPYING COMMAND, MAKE SURE threeDDPointsPerVoxel IS NOT THE LAST AS THE PAR
     --computeMetrics=0 \
     --reconstructedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/reconstructed/3DD_2_1051/test_3DD_2_%04d.ply \
     --compressedStreamPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/3DD_2_1051/test_3DD_2.bin \
-    --occupancyPrecision=4 \
+    --occupancyPrecision=1 \
     --threeDDPointsPerVoxel=2 \
     --threeDD \
     --downscalePC=2

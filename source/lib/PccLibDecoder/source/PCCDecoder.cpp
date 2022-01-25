@@ -477,6 +477,12 @@ int PCCDecoder::decode( PCCContext& context, PCCGroupOfFrames& reconstructs, int
     TRACE_PCFRAME( " MD5 checksum = " );
     for ( auto& c : tmp ) { TRACE_PCFRAME( "%02x", c ); }
     TRACE_PCFRAME( "\n" );*/
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // upscale PC
+    //upscale_pc( reconstruct, params_.upscalePC );
+    ////////////////////////////////////////////////////////////////////////////////
+
     TRACE_RECFRAME( "AtlasFrameIndex = %d\n", frameIdx );
     auto checksum = reconstructs[frameIdx].computeChecksum( true );
     TRACE_RECFRAME( " MD5 checksum = " );
@@ -487,7 +493,8 @@ int PCCDecoder::decode( PCCContext& context, PCCGroupOfFrames& reconstructs, int
 
    ////////////////////////////////////////////////////////////////////////////////
   // upscale PC
-  upscale_pc( reconstructs, reconstructs.getFrameCount(), params_.upscalePC );
+  //upscale_pcs( reconstructs, reconstructs.getFrameCount(), params_.upscalePC );
+  upscale_pc( reconstructs[reconstructs.getFrameCount() - 1], params_.upscalePC );
   ////////////////////////////////////////////////////////////////////////////////
 
   return 0;
