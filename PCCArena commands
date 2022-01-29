@@ -4,9 +4,11 @@ PCCArena commands
 the setup_env_ds.sh file breaks partially through the setup. need to manually go through the remaining commands
 ###
 
-python ply_compare.py /mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/reconstructed/test_rec_1051.ply /mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/reconstructed/test_rec_3DD_1051.ply /mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/test_3DD_1051.bin /mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/reconstructed/rec_1051_CMP_rec_3DD_1051
+Comparing 3DD with vanilla:
+python ply_compare.py /mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/decompressed/vanilla/test_vanilla_1051.ply /mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/reconstructed/3DD_2_1051/test_3DD_2_1051.ply /mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/3DD_2_1051/test_3DD_2.bin /mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/reconstructed/rec_1051_CMP_rec_3DD_2_1051_precision=1
 
 
+Comapring 2DD with vanilla:
 python ply_compare.py /mnt/d/NUS
 /Volumetric_Video_Streaming_UROP/test_data/reconstructed/test_rec_1051.ply /mnt/d/NUS/Volumetric_Video_Streaming_UROP/te
 st_data/reconstructed/test_rec_2DD_1051.ply /mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/test_2DD_105

@@ -8184,6 +8184,11 @@ void PCCEncoder::createPatchFrameDataStructure( PCCContext&         context,
       pdu.set2dPosX( patch.getU0() );
       pdu.set2dPosY( patch.getV0() );
       bool lodEnableFlag = ( patch.getLodScaleX() > 1 || patch.getLodScaleY() > 1 );
+      
+      ////////////////////////////////////////////2DD patches were not upscaled in the decoder as this flag was not set before ////////////////////////////////////////////
+      if ( lodEnableFlag ) { afps.setLodModeEnableFlag( true ); }
+      /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
       if ( afps.getLodModeEnableFlag() ) {
         pdu.setLodEnableFlag( lodEnableFlag );
         if ( lodEnableFlag ) {

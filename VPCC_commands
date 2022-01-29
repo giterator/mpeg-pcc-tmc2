@@ -44,6 +44,7 @@ WHEN COPYING COMMAND, MAKE SURE threeDDPointsPerVoxel IS NOT THE LAST AS THE PAR
 ////
 --uncompressedDataFolder=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/subset/ \
 
+Vanilla:
 ./bin/PccAppEncoder \
     --configurationFolder=cfg/ \
     --config=cfg/common/ctc-common.cfg \
@@ -59,9 +60,55 @@ WHEN COPYING COMMAND, MAKE SURE threeDDPointsPerVoxel IS NOT THE LAST AS THE PAR
     --computeMetrics=0 \
     --reconstructedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/reconstructed/vanilla/test_vanilla_%04d.ply \
     --compressedStreamPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/vanilla/test_vanilla.bin \
-    --occupancyPrecision=4
+    --occupancyPrecision=1
     
 
+/*     --uncompressedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/subset/longdress_vox10_%04d.ply \
+*/
+./bin/PccAppDecoder \
+    --nbThread=32 \
+    --compressedStreamPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/vanilla/test_vanilla.bin \
+    --inverseColorSpaceConversionConfig=cfg/hdrconvert/yuv420torgb444.cfg \
+    --colorTransform=0 \
+    --computeMetrics=0 \
+    --computeChecksum=0 \
+    --reconstructedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/decompressed/vanilla/test_vanilla_%04d.ply
+
+
+2DD:
+
+./bin/PccAppEncoder \
+    --configurationFolder=cfg/ \
+    --config=cfg/common/ctc-common.cfg \
+    --config=cfg/condition/ctc-all-intra.cfg \
+    --config=cfg/rate/ctc-r3.cfg \
+    --nbThread=32 \
+    --uncompressedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/subset/longdress_vox10_%04d.ply \
+    --colorTransform=0 \
+    --keepIntermediateFiles \
+    --startFrameNumber=1051 \
+    --frameCount=1 \
+    --computeChecksum=0 \
+    --computeMetrics=0 \
+    --reconstructedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/reconstructed/2DD/test_2DD_%04d.ply \
+    --compressedStreamPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/2DD/test_2DD.bin \
+    --levelOfDetailX=2 \
+    --levelOfDetailY=2 \
+    --occupancyPrecision=1
+    
+
+/*     --uncompressedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/subset/longdress_vox10_%04d.ply \
+*/
+./bin/PccAppDecoder \
+    --nbThread=32 \
+    --compressedStreamPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/2DD/test_2DD.bin \
+    --inverseColorSpaceConversionConfig=cfg/hdrconvert/yuv420torgb444.cfg \
+    --colorTransform=0 \
+    --computeMetrics=0 \
+    --computeChecksum=0 \
+    --reconstructedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/decompressed/2DD/test_2DD_%04d.ply
+
+3DD:
 ./bin/PccAppEncoder \
     --configurationFolder=cfg/ \
     --config=cfg/common/ctc-common.cfg \
@@ -79,23 +126,11 @@ WHEN COPYING COMMAND, MAKE SURE threeDDPointsPerVoxel IS NOT THE LAST AS THE PAR
     --compressedStreamPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/3DD_2_1051/test_3DD_2.bin \
     --occupancyPrecision=1 \
     --threeDDPointsPerVoxel=2 \
-    --threeDD \
-    --downscalePC=2
+    --threeDD
+
+    --downscalePC=2 \
+
     
-  
-
-
-/*     --uncompressedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/subset/longdress_vox10_%04d.ply \
-*/
-./bin/PccAppDecoder \
-    --nbThread=32 \
-    --compressedStreamPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/vanilla/test_vanilla.bin \
-    --inverseColorSpaceConversionConfig=cfg/hdrconvert/yuv420torgb444.cfg \
-    --colorTransform=0 \
-    --computeMetrics=0 \
-    --computeChecksum=0 \
-    --reconstructedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/decompressed/vanilla/test_vanilla_%04d.ply
-
 
 ./bin/PccAppDecoder \
     --nbThread=32 \
@@ -106,6 +141,7 @@ WHEN COPYING COMMAND, MAKE SURE threeDDPointsPerVoxel IS NOT THE LAST AS THE PAR
     --computeChecksum=0 \
     --keepIntermediateFiles \
     --reconstructedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/decompressed/3DD_2_1051/test_3DD_2_%04d.ply \
+    
     --upscalePC=2
 
     
