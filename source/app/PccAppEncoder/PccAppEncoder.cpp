@@ -1095,7 +1095,8 @@ int compressVideo( const PCCEncoderParameters& encoderParams,
     }
     if ( ret != 0 ) { return ret; }
     if ( !encoderParams.reconstructedDataPath_.empty() ) {
-      reconstructs.write( encoderParams.reconstructedDataPath_, reconstructedFrameNumber );
+      //reconstructs.write( encoderParams.reconstructedDataPath_, reconstructedFrameNumber );
+      reconstructs.write( encoderParams.reconstructedDataPath_, reconstructedFrameNumber, encoderParams.nbThread_, false ); //writes in non ascii form -> should be faster
     }
     normals.clear();
     sources.clear();

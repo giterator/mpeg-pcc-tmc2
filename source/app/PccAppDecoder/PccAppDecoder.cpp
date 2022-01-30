@@ -374,8 +374,8 @@ int decompressVideo( PCCDecoderParameters&       decoderParams,
       ////////////////////////////////////////////////////////////////////////////////
 
       if ( !decoderParams.reconstructedDataPath_.empty() ) {
-        reconstructs.write( decoderParams.reconstructedDataPath_, frameNumber, decoderParams.nbThread_, true );
-        //reconstructs.write( decoderParams.reconstructedDataPath_, frameNumber, decoderParams.nbThread_, false );
+        //reconstructs.write( decoderParams.reconstructedDataPath_, frameNumber, decoderParams.nbThread_, true );
+        reconstructs.write( decoderParams.reconstructedDataPath_, frameNumber, decoderParams.nbThread_, false ); //original
       } else {
         frameNumber += reconstructs.getFrameCount();
       }
