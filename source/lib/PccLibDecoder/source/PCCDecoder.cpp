@@ -493,8 +493,8 @@ int PCCDecoder::decode( PCCContext& context, PCCGroupOfFrames& reconstructs, int
 
    ////////////////////////////////////////////////////////////////////////////////
   // upscale PC
-  //upscale_pcs( reconstructs, reconstructs.getFrameCount(), params_.upscalePC );
-  upscale_pc( reconstructs[reconstructs.getFrameCount() - 1], params_.upscalePC );
+  upscale_pcs( reconstructs, reconstructs.getFrameCount(), params_.upscalePC );
+  //upscale_pc( reconstructs[reconstructs.getFrameCount() - 1], params_.upscalePC );
   ////////////////////////////////////////////////////////////////////////////////
 
   return 0;

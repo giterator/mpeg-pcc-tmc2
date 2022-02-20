@@ -50,7 +50,7 @@ Vanilla:
     --config=cfg/common/ctc-common.cfg \
     --config=cfg/condition/ctc-all-intra.cfg \
     --config=cfg/rate/ctc-r3.cfg \
-    --nbThread=32 \
+    --nbThread=40 \
     --uncompressedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/dynamic_pc_data/longdress/Ply/longdress_vox10_%04d.ply \
     --colorTransform=0 \
     --keepIntermediateFiles \
@@ -66,7 +66,7 @@ Vanilla:
 /*     --uncompressedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/subset/longdress_vox10_%04d.ply \
 */
 ./bin/PccAppDecoder \
-    --nbThread=32 \
+    --nbThread=40 \
     --compressedStreamPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/vanilla/vanilla.bin \
     --inverseColorSpaceConversionConfig=cfg/hdrconvert/yuv420torgb444.cfg \
     --colorTransform=0 \
@@ -84,7 +84,7 @@ Vanilla:
     --config=cfg/common/ctc-common.cfg \
     --config=cfg/condition/ctc-all-intra.cfg \
     --config=cfg/rate/ctc-r3.cfg \
-    --nbThread=32 \
+    --nbThread=40 \
     --uncompressedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/dynamic_pc_data/longdress/Ply/longdress_vox10_%04d.ply \
     --colorTransform=0 \
     --keepIntermediateFiles \
@@ -102,7 +102,7 @@ Vanilla:
 /*     --uncompressedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/subset/longdress_vox10_%04d.ply \
 */
 ./bin/PccAppDecoder \
-    --nbThread=32 \
+    --nbThread=40 \
     --compressedStreamPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/2DD/2DD.bin \
     --inverseColorSpaceConversionConfig=cfg/hdrconvert/yuv420torgb444.cfg \
     --colorTransform=0 \
@@ -118,7 +118,7 @@ Vanilla:
     --config=cfg/common/ctc-common.cfg \
     --config=cfg/condition/ctc-all-intra.cfg \
     --config=cfg/rate/ctc-r3.cfg \
-    --nbThread=32 \
+    --nbThread=40 \
     --uncompressedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/dynamic_pc_data/longdress/Ply/longdress_vox10_%04d.ply \
     --colorTransform=0 \
     --keepIntermediateFiles \
@@ -137,7 +137,7 @@ Vanilla:
     
 
 ./bin/PccAppDecoder \
-    --nbThread=32 \
+    --nbThread=40 \
     --compressedStreamPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/3DD/3DD.bin \
     --inverseColorSpaceConversionConfig=cfg/hdrconvert/yuv420torgb444.cfg \
     --colorTransform=0 \

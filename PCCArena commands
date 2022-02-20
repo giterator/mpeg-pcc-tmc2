@@ -4,6 +4,27 @@ PCCArena commands
 the setup_env_ds.sh file breaks partially through the setup. need to manually go through the remaining commands
 ###
 
+##########################################################################
+For generating metrics for multiple plys:
+##########################################################################
+2DD:
+python ply_compare_multiple.py \
+/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/decompressed/vanilla \
+/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/decompressed/2DD \
+/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/2DD/2DD.bin \
+/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/2DD_metrics/
+
+3DD:
+python ply_compare_multiple.py \
+/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/decompressed/vanilla \
+/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/decompressed/3DD \
+/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/3DD/3DD.bin \
+/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/3DD_metrics/
+
+
+##########################################################################
+For generating metrics for a single ply:
+##########################################################################
 Comparing 3DD with vanilla:
 python ply_compare.py /mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/decompressed/vanilla/test_vanilla_1051.ply /mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/reconstructed/3DD_2_1051/test_3DD_2_1051.ply /mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/compressed/3DD_2_1051/test_3DD_2.bin /mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/reconstructed/rec_1051_CMP_rec_3DD_2_1051_precision=1
 
