@@ -39,6 +39,7 @@
 #include "PCCMath.h"
 #include "PCCVideo.h"
 #include "PCCContext.h"
+#include <vector>
 
 namespace pcc {
 class PCCPatch;
@@ -165,6 +166,26 @@ class PCCCodec {
                            std::vector<uint32_t>&              partition,
                            bool                                bDecoder );
 
+  ///////////////////////////////////////////////////////////////////////////////////
+  void generatePointCloud( PCCPointSet3&                       reconstruct,
+                           PCCContext&                         context,
+                           size_t                              frameIndex,
+                           size_t                              tileIndex,
+                           const GeneratePointCloudParameters& params,
+                           std::vector<uint32_t>&              partition,
+                           bool                                bDecoder,
+                           std::vector<PCCPointSet3>& interpolated_points);
+  size_t colorPointCloud( PCCPointSet3&                       reconstruct,
+                          PCCContext&                         context,
+                          PCCFrameContext&                    tile,
+                          const std::vector<bool>&            absoluteT1List,
+                          const size_t                        multipleStreams,
+                          const uint8_t                       attributeCount,
+                          size_t                              accTilePointCount,
+                          const GeneratePointCloudParameters& params ,
+                          std::vector<PCCPointSet3>&          interpolated_points );
+  ///////////////////////////////////////////////////////////////////////////////////
+
   size_t colorPointCloud( PCCPointSet3&                       reconstruct,
                           PCCContext&                         context,
                           PCCFrameContext&                    tile,
@@ -252,6 +273,24 @@ class PCCCodec {
                                           const bool                           filling     = 0,
                                           const size_t                         minD1       = 0,
                                           const size_t                         neighbor    = 0 );
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  std::vector<PCCPoint3D> generatePoints( std::vector<PCCPointSet3>& interpolated_points,
+                                          const GeneratePointCloudParameters&    params,
+                                          PCCFrameContext&                     tile,
+                                          const std::vector<PCCVideoGeometry>& videoMultiple,
+                                          const size_t                         videoFrameIndex,
+                                          const size_t                         patchIndex,
+                                          const size_t                         u,
+                                          const size_t                         v,
+                                          const size_t                         x,
+                                          const size_t                         y,
+                                          const bool                           interpolate = 0,
+                                          const bool                           filling     = 0,
+                                          const size_t                         minD1       = 0,
+                                          const size_t                         neighbor    = 0);
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   void                    generateAfti( PCCContext& context, size_t frameIndex, AtlasFrameTileInformation& afti );
 
   inline double entropy( std::vector<uint8_t>& Data, int N ) {

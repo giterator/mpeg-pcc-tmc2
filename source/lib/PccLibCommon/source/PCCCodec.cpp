@@ -44,6 +44,8 @@
 
 #include "PCCCodec.h"
 
+#include <vector>
+
 using namespace pcc;
 
 PCCCodec::PCCCodec() {}
@@ -513,6 +515,713 @@ std::vector<PCCPoint3D> PCCCodec::generatePoints( const GeneratePointCloudParame
   }    // fi (pointLocalReconstruction)
   return createdPoints;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+std::vector<PCCPoint3D> PCCCodec::generatePoints(std::vector<PCCPointSet3>& interpolated_points,
+                                                  const GeneratePointCloudParameters&    params,
+                                                  PCCFrameContext&                     tile,
+                                                  const std::vector<PCCVideoGeometry>& videoGeometryMultiple,
+                                                  const size_t                         videoFrameIndex,
+                                                  const size_t                         patchIndex,
+                                                  const size_t                         u,
+                                                  const size_t                         v,
+                                                  const size_t                         x,
+                                                  const size_t                         y,
+                                                  const bool                           interpolate,
+                                                  const bool                           filling,
+                                                  const size_t                         minD1,
+                                                  const size_t                         neighbor) {
+
+  const auto&             patch  = tile.getPatch( patchIndex );
+
+  int                     lodX   = patch.getLodScaleX();
+  int                     lodY   = patch.getLodScaleY();
+  int interpolate_x                  = lodX - 1;
+  int interpolate_y = lodY - 1;
+
+
+  auto&                   frame0 = videoGeometryMultiple[0].getFrame( videoFrameIndex );
+  std::vector<PCCPoint3D> createdPoints;
+  PCCPoint3D              point0;
+  if ( params.pbfEnableFlag_ ) {
+    point0 = patch.generatePoint( u, v, patch.getDepthMap( u, v ) );
+  } else {
+    point0 = patch.generatePoint( u, v, frame0.getValue( 0, x, y ) );
+    
+
+    /////////interpolate near points/////////
+    // interpolate along x axis
+    interpolated_points.resize( interpolated_points.size() + 1 );
+    for ( int i = 1; i <= interpolate_x; i++ ) {
+      interpolated_points[interpolated_points.size() - 1].addPoint( patch.generatePoint( u + i, v, frame0.getValue( 0, x, y ) ) );
+    }
+
+    //interpolate along y axis
+    interpolated_points.resize( interpolated_points.size() + 1 );
+    for ( int i = 1; i <= interpolate_y; i++ ) {
+      interpolated_points[interpolated_points.size() - 1].addPoint(
+          patch.generatePoint( u, v + i, frame0.getValue( 0, x, y ) ) );
+    }
+    ///////////////////////////////////////////
+
+  }
+  createdPoints.push_back( point0 );
+  if ( params.singleMapPixelInterleaving_ ) {
+    size_t     patchIndexPlusOne = patchIndex + 1;
+    double     depth0;
+    double     depth1;
+    const auto imageWidth  = frame0.getWidth();
+    const auto imageHeight = frame0.getHeight();
+    bool       occupancyTop;
+    bool       occupancyBotton;
+    bool       occupancyLeft;
+    bool       occupancyRight;
+    if ( !params.pbfEnableFlag_ ) {
+      auto& occupancyMap = tile.getOccupancyMap();
+      occupancyTop       = y > 0 && ( occupancyMap[( y - 1 ) * imageWidth + x] != 0U );
+      occupancyBotton    = y < ( imageHeight - 1 ) && ( occupancyMap[( y + 1 ) * imageWidth + x] != 0U );
+      occupancyLeft      = x > 0 && ( occupancyMap[y * imageWidth + x - 1] != 0U );
+      occupancyRight     = x < ( imageWidth - 1 ) && ( occupancyMap[y * imageWidth + x + 1] != 0U );
+    } else {
+      auto res        = patch.getOccupancyResolution();
+      occupancyTop    = y > 0 && ( patch.getOccupancyMap( ( x ) / res, ( y - 1 ) / res ) != 0 );
+      occupancyBotton = y < ( imageHeight - 1 ) && ( patch.getOccupancyMap( ( x ) / res, ( y + 1 ) / res ) != 0 );
+      occupancyLeft   = x > 0 && ( patch.getOccupancyMap( ( x - 1 ) / res, ( y ) / res ) != 0 );
+      occupancyRight  = x < ( imageWidth - 1 ) && ( patch.getOccupancyMap( ( x + 1 ) / res, ( y ) / res ) != 0 );
+    }
+    auto&        blockToPatch      = tile.getBlockToPatch();
+    const size_t blockToPatchWidth = tile.getWidth() / params.occupancyResolution_;
+    double       depthNeighbors[4] = { 0.0, 0.0, 0.0, 0.0 };
+    int          count             = 0;
+    double       minimumDepth      = point0[patch.getNormalAxis()];
+    double       maximumDepth      = point0[patch.getNormalAxis()];
+    if ( occupancyLeft ) {
+      size_t Temp_u0 = ( x - 1 ) / patch.getOccupancyResolution();
+      size_t Temp_v0 = ( y ) / patch.getOccupancyResolution();
+      if ( blockToPatch[(Temp_v0)*blockToPatchWidth + Temp_u0] == patchIndexPlusOne ) {
+        if ( patch.getProjectionMode() == 0 ) {
+          depthNeighbors[0] = double( frame0.getValue( 0, x - 1, y ) + patch.getD1() );
+        } else {
+          depthNeighbors[0] = double( patch.getD1() - frame0.getValue( 0, x - 1, y ) );
+        }
+        count++;
+        if ( depthNeighbors[0] < minimumDepth ) { minimumDepth = depthNeighbors[0]; }
+        if ( depthNeighbors[0] > maximumDepth ) { maximumDepth = depthNeighbors[0]; }
+      }
+    }
+    if ( occupancyRight ) {
+      size_t Temp_u0 = ( x + 1 ) / patch.getOccupancyResolution();
+      size_t Temp_v0 = ( y ) / patch.getOccupancyResolution();
+      if ( blockToPatch[(Temp_v0)*blockToPatchWidth + Temp_u0] == patchIndexPlusOne ) {
+        if ( patch.getProjectionMode() == 0 ) {
+          depthNeighbors[1] = double( frame0.getValue( 0, x + 1, y ) + patch.getD1() );
+        } else {
+          depthNeighbors[1] = double( patch.getD1() - frame0.getValue( 0, x + 1, y ) );
+        }
+        count++;
+        if ( depthNeighbors[1] < minimumDepth ) { minimumDepth = depthNeighbors[1]; }
+        if ( depthNeighbors[1] > maximumDepth ) { maximumDepth = depthNeighbors[1]; }
+      }
+    }
+    if ( occupancyTop ) {
+      size_t Temp_u0 = ( x ) / patch.getOccupancyResolution();
+      size_t Temp_v0 = ( y - 1 ) / patch.getOccupancyResolution();
+      if ( blockToPatch[(Temp_v0)*blockToPatchWidth + Temp_u0] == patchIndexPlusOne ) {
+        if ( patch.getProjectionMode() == 0 ) {
+          depthNeighbors[2] = double( frame0.getValue( 0, x, y - 1 ) + patch.getD1() );
+        } else {
+          depthNeighbors[2] = double( patch.getD1() - frame0.getValue( 0, x, y - 1 ) );
+        }
+        count++;
+        if ( depthNeighbors[2] < minimumDepth ) { minimumDepth = depthNeighbors[2]; }
+        if ( depthNeighbors[2] > maximumDepth ) { maximumDepth = depthNeighbors[2]; }
+      }
+    }
+    if ( occupancyBotton ) {
+      size_t Temp_u0 = ( x ) / patch.getOccupancyResolution();
+      size_t Temp_v0 = ( y + 1 ) / patch.getOccupancyResolution();
+      if ( blockToPatch[(Temp_v0)*blockToPatchWidth + Temp_u0] == patchIndexPlusOne ) {
+        if ( patch.getProjectionMode() == 0 ) {
+          depthNeighbors[3] = double( frame0.getValue( 0, x, y + 1 ) + patch.getD1() );
+        } else {
+          depthNeighbors[3] = double( patch.getD1() - frame0.getValue( 0, x, y + 1 ) );
+        }
+        count++;
+        if ( depthNeighbors[3] < minimumDepth ) { minimumDepth = depthNeighbors[3]; }
+        if ( depthNeighbors[3] > maximumDepth ) { maximumDepth = depthNeighbors[3]; }
+      }
+    }
+    if ( count == 0 ) { return createdPoints; }
+    if ( ( x + y ) % 2 == 1 ) {
+      depth1 = point0[patch.getNormalAxis()];
+      PCCPoint3D interpolateD0( point0 );
+      if ( patch.getProjectionMode() == 0 ) {
+        interpolateD0[patch.getNormalAxis()] =
+            round( ( std::min )( ( std::max )( minimumDepth, depth1 - params.surfaceThickness_ ), depth1 ) );
+      } else {
+        interpolateD0[patch.getNormalAxis()] =
+            round( ( std::max )( ( std::min )( maximumDepth, depth1 + params.surfaceThickness_ ), depth1 ) );
+      }
+      depth0 = interpolateD0[patch.getNormalAxis()];
+      createdPoints.push_back( interpolateD0 );
+    } else {
+      depth0 = point0[patch.getNormalAxis()];
+      PCCPoint3D interpolateD1( point0 );
+      if ( patch.getProjectionMode() == 0 ) {
+        interpolateD1[patch.getNormalAxis()] = round( ( std::max )(
+            ( std::min )( ( depthNeighbors[0] + depthNeighbors[1] + depthNeighbors[2] + depthNeighbors[3] ) / count,
+                          depth0 + params.surfaceThickness_ ),
+            depth0 ) );
+      } else {
+        interpolateD1[patch.getNormalAxis()] = round( ( std::min )(
+            ( std::max )( ( depthNeighbors[0] + depthNeighbors[1] + depthNeighbors[2] + depthNeighbors[3] ) / count,
+                          depth0 - params.surfaceThickness_ ),
+            depth0 ) );
+      }
+      depth1 = interpolateD1[patch.getNormalAxis()];
+      createdPoints.push_back( interpolateD1 );
+    }
+    size_t xmin = ( std::min )( depth0, depth1 );
+    size_t xmax = ( std::max )( depth0, depth1 );
+    for ( size_t step = 1; step < ( xmax - xmin ); ++step ) {
+      PCCPoint3D fillPoint( point0 );
+      fillPoint[patch.getNormalAxis()] = xmin + double( step );
+      createdPoints.push_back( fillPoint );
+    }
+  } else if ( params.pointLocalReconstruction_ ) {
+    int deltaDepth = 0;
+    if ( interpolate ) {
+      deltaDepth =
+          getDeltaNeighbors( frame0, patch, x, y, neighbor, g_neighborThreshold, patch.getProjectionMode() != 0U );
+    }
+    if ( patch.getProjectionMode() == 0 ) {
+      deltaDepth = ( std::max )( deltaDepth, static_cast<int>( minD1 ) );
+    } else {
+      deltaDepth = ( std::min )( deltaDepth, -static_cast<int>( minD1 ) );
+    }
+    if ( deltaDepth != 0 ) {
+      PCCPoint3D point1( point0 );
+      point1[patch.getNormalAxis()] += static_cast<double>( deltaDepth );
+      createdPoints.push_back( point1 );
+      if ( filling ) {
+        size_t xmin = ( std::min )( point0[patch.getNormalAxis()], point1[patch.getNormalAxis()] );
+        size_t xmax = ( std::max )( point0[patch.getNormalAxis()], point1[patch.getNormalAxis()] );
+        for ( size_t value = xmin + 1; value < xmax; ++value ) {
+          PCCPoint3D pointFill( point0 );
+          pointFill[patch.getNormalAxis()] = double( value );
+          createdPoints.push_back( pointFill );
+        }
+      }
+    }
+  } else {  // not singleMapPixelInterleaving_ && not pointLocalReconstruction_
+    if ( params.mapCountMinus1_ > 0 ) {
+      PCCPoint3D  point1( point0 );
+      const auto& frame1 = params.multipleStreams_ ? videoGeometryMultiple[1].getFrame( videoFrameIndex )
+                                                   : videoGeometryMultiple[0].getFrame( 1 + videoFrameIndex );
+      if ( params.absoluteD1_ ) {
+        point1 = patch.generatePoint( u, v, frame1.getValue( 0, x, y ) );
+      } else {
+        if ( patch.getProjectionMode() == 0 ) {
+          point1[patch.getNormalAxis()] += frame1.getValue( 0, x, y );
+        } else {
+          point1[patch.getNormalAxis()] -= frame1.getValue( 0, x, y );
+        }
+      }
+      createdPoints.push_back( point1 );
+
+      /////////interpolate far points/////////
+      // interpolate along x axis
+      interpolated_points.resize( interpolated_points.size() + 1 );
+      for ( int i = 1; i <= interpolate_x; i++ ) {
+        interpolated_points[interpolated_points.size() - 1].addPoint(
+            patch.generatePoint( u + i, v, frame1.getValue( 0, x, y ) ) );
+      }
+
+      // interpolate along y axis
+      interpolated_points.resize( interpolated_points.size() + 1 );
+      for ( int i = 1; i <= interpolate_y; i++ ) {
+        interpolated_points[interpolated_points.size() - 1].addPoint(
+            patch.generatePoint( u, v + i, frame1.getValue( 0, x, y ) ) );
+      }
+      ///////////////////////////////////////////
+
+
+    }  // if ( params.mapCountMinus1_ > 0 ) {
+  }    // fi (pointLocalReconstruction)
+  return createdPoints;
+}
+
+
+void PCCCodec::generatePointCloud( PCCPointSet3&                       reconstruct,
+                                   PCCContext&                         context,
+                                   size_t                              frameIndex,
+                                   size_t                              tileIndex,
+                                   const GeneratePointCloudParameters& params,
+                                   std::vector<uint32_t>&              partition,
+                                   bool                                bDecoder,
+                                   std::vector<PCCPointSet3>& interpolated_points) {
+  TRACE_CODEC( "generatePointCloud F = %zu start \n", frameIndex );
+  auto&        tile                  = context[frameIndex].getTile( tileIndex );
+  auto&        videoGeometry         = context.getVideoGeometryMultiple()[0];
+  auto&        videoGeometryMultiple = context.getVideoGeometryMultiple();
+  auto&        videoOccupancyMap     = context.getVideoOccupancyMap();
+  auto&        patches               = tile.getPatches();
+  auto&        pointToPixel          = tile.getPointToPixel();
+  auto&        blockToPatch          = tile.getBlockToPatch();
+  const size_t blockToPatchWidth     = tile.getWidth() / params.occupancyResolution_;
+  const size_t blockToPatchHeight    = tile.getHeight() / params.occupancyResolution_;
+  const size_t totalPatchCount       = patches.size();
+  uint32_t     patchIndex            = 0;
+  const size_t mapCount              = params.mapCountMinus1_ + 1;
+  reconstruct.addColors();
+  printf( "generatePointCloud pbfEnableFlag_ = %d \n", params.pbfEnableFlag_ );
+  fflush( stdout );
+  TRACE_CODEC( "generatePointCloud pbfEnableFlag_ = %d \n", params.pbfEnableFlag_ );
+  if ( params.pbfEnableFlag_ ) {
+    size_t              frameIndex = params.multipleStreams_ ? tile.getFrameIndex() : tile.getFrameIndex() * mapCount;
+    PatchBlockFiltering patchBlockFiltering;
+    patchBlockFiltering.setPatches( &( tile.getPatches() ) );
+    patchBlockFiltering.setBlockToPatch( &( tile.getBlockToPatch() ) );
+    patchBlockFiltering.setOccupancyMapEncoder( &( tile.getOccupancyMap() ) );
+    patchBlockFiltering.setOccupancyMapVideo( &( videoOccupancyMap.getFrame( tile.getFrameIndex() ).getChannel( 0 ) ) );
+    patchBlockFiltering.setGeometryVideo( &( videoGeometry.getFrame( frameIndex ).getChannel( 0 ) ) );
+    patchBlockFiltering.patchBorderFiltering( tile.getWidth(), tile.getHeight(), params.occupancyResolution_,
+                                              params.occupancyPrecision_,
+                                              !params.enhancedOccupancyMapCode_ ? params.thresholdLossyOM_ : 0,
+                                              params.pbfPassesCount_, params.pbfFilterSize_, params.pbfLog2Threshold_ );
+    TRACE_CODEC( "%s \n", "PBF done" );
+  }
+
+  // point cloud occupancy map upscaling from video using nearest neighbor
+  auto& occupancyMap = tile.getOccupancyMap();
+  if ( !params.pbfEnableFlag_ ) {
+    auto width  = tile.getWidth();
+    auto height = tile.getHeight();
+    occupancyMap.resize( width * height, 0 );
+    for ( size_t v = 0; v < height; ++v ) {
+      for ( size_t u = 0; u < width; ++u ) {
+        occupancyMap[v * width + u] =
+            videoOccupancyMap.getFrame( tile.getFrameIndex() )
+                .getValue( 0, tile.getLeftTopXInFrame() / params.occupancyPrecision_ + u / params.occupancyPrecision_,
+                           tile.getLeftTopYInFrame() / params.occupancyPrecision_ + v / params.occupancyPrecision_ );
+      }
+    }
+  }
+  if ( params.enableSizeQuantization_ ) {
+    size_t quantizerSizeX = ( size_t( 1 ) << tile.getLog2PatchQuantizerSizeX() );
+    size_t quantizerSizeY = ( size_t( 1 ) << tile.getLog2PatchQuantizerSizeY() );
+    for ( size_t patchIndex = 0; patchIndex < totalPatchCount; ++patchIndex ) {
+      auto&  patch             = patches[patchIndex];
+      size_t patchSizeXInPixel = ( patch.getPatchSize2DXInPixel() / quantizerSizeX ) * quantizerSizeX;
+      size_t patchSizeYInPixel = ( patch.getPatchSize2DYInPixel() / quantizerSizeY ) * quantizerSizeY;
+      if ( tile.getLog2PatchQuantizerSizeX() == 0 ) { assert( patchSizeXInPixel == patch.getPatchSize2DXInPixel() ); }
+      if ( tile.getLog2PatchQuantizerSizeY() == 0 ) { assert( patchSizeYInPixel == patch.getPatchSize2DYInPixel() ); }
+      for ( size_t v0 = 0; v0 < patch.getSizeV0(); ++v0 ) {
+        for ( size_t u0 = 0; u0 < patch.getSizeU0(); ++u0 ) {
+          const size_t blockIndex = patch.patchBlock2CanvasBlock( u0, v0, blockToPatchWidth, blockToPatchHeight );
+          if ( blockToPatch[blockIndex] == ( patchIndex + 1 ) ) {
+            for ( size_t v1 = 0; v1 < patch.getOccupancyResolution(); ++v1 ) {
+              const size_t v = v0 * patch.getOccupancyResolution() + v1;
+              for ( size_t u1 = 0; u1 < patch.getOccupancyResolution(); ++u1 ) {
+                const size_t u = u0 * patch.getOccupancyResolution() + u1;
+                if ( u >= patchSizeXInPixel || v >= patchSizeYInPixel ) {
+                  occupancyMap[patch.patch2Canvas( u, v, tile.getWidth(), tile.getHeight() )] = 0;
+                }
+              }  // u1
+            }    // v1
+          }      // patchidx+1==block2patch
+        }        // u0
+      }          // v0
+    }
+  }
+  // partition.resize( 0 );
+  pointToPixel.resize( 0 );
+  reconstruct.clear();
+
+  TRACE_CODEC( " Frame %zu in generatePointCloud \n", tile.getFrameIndex() );
+  TRACE_CODEC( " params.useAdditionalPointsPatch = %d \n", params.useAdditionalPointsPatch_ );
+  TRACE_CODEC( " params.enhancedOccupancyMapCode   = %d \n", params.enhancedOccupancyMapCode_ );
+
+  bool   useRawPointsSeparateVideo = tile.getUseRawPointsSeparateVideo();
+  size_t videoFrameIndex;
+  TRACE_CODEC( " mapCount                       = %d \n", mapCount );
+  if ( params.multipleStreams_ ) {
+    videoFrameIndex = tile.getFrameIndex();
+    if ( videoGeometryMultiple[0].getFrameCount() < ( videoFrameIndex + 1 ) ) { return; }
+  } else {
+    videoFrameIndex = tile.getFrameIndex() * mapCount;
+    if ( videoGeometry.getFrameCount() < ( videoFrameIndex + mapCount ) ) { return; }
+  }
+  TRACE_CODEC( " videoFrameIndex(shift):frameIndex*mapCount  = %d \n", videoFrameIndex );
+  const auto& frame0 = params.multipleStreams_ ? videoGeometryMultiple[0].getFrame( videoFrameIndex )
+                                               : videoGeometry.getFrame( videoFrameIndex );
+  const size_t          tileWidth  = tile.getWidth();
+  const size_t          tileHeight = tile.getHeight();
+  std::vector<uint32_t> BPflag;
+  if ( !params.pbfEnableFlag_ ) { BPflag.resize( tileWidth * tileHeight, 0 ); }
+
+  std::vector<std::vector<PCCPoint3D>> eomPointsPerPatch;
+  eomPointsPerPatch.resize( totalPatchCount );
+  uint32_t   index;
+  const bool patchPrecedenceOrderFlag = context.getAtlasSequenceParameterSet( 0 ).getPatchPrecedenceOrderFlag();
+  for ( index = 0; index < patches.size(); index++ ) {
+    patchIndex                     = ( bDecoder && patchPrecedenceOrderFlag ) ? ( totalPatchCount - index - 1 ) : index;
+    const size_t patchIndexPlusOne = patchIndex + 1;
+    auto&        patch             = patches[patchIndex];
+    PCCColor3B   color( uint8_t( 0 ) );
+    TRACE_CODEC(
+        "P%2lu/%2lu: 2D=(%2lu,%2lu)*(%2lu,%2lu) 3D(%4zu,%4zu,%4zu)*(%4zu,%4zu) A=(%zu,%zu,%zu) Or=%zu P=%zu => %zu "
+        "AxisOfAdditionalPlane = %zu \n",
+        patchIndex, totalPatchCount, patch.getU0(), patch.getV0(), patch.getSizeU0(), patch.getSizeV0(), patch.getU1(),
+        patch.getV1(), patch.getD1(), patch.getSizeU0() * patch.getOccupancyResolution(),
+        patch.getSizeV0() * patch.getOccupancyResolution(), patch.getNormalAxis(), patch.getTangentAxis(),
+        patch.getBitangentAxis(), patch.getPatchOrientation(), patch.getProjectionMode(), reconstruct.getPointCount(),
+        patch.getAxisOfAdditionalPlane() );
+
+    while ( color[0] == color[1] || color[2] == color[1] || color[2] == color[0] ) {
+      color[0] = static_cast<uint8_t>( rand() % 32 ) * 8;
+      color[1] = static_cast<uint8_t>( rand() % 32 ) * 8;
+      color[2] = static_cast<uint8_t>( rand() % 32 ) * 8;
+    }
+    for ( size_t v0 = 0; v0 < patch.getSizeV0(); ++v0 ) {
+      for ( size_t u0 = 0; u0 < patch.getSizeU0(); ++u0 ) {
+        const size_t blockIndex = patch.patchBlock2CanvasBlock( u0, v0, blockToPatchWidth, blockToPatchHeight );
+        if ( blockToPatch[blockIndex] == patchIndexPlusOne ) {
+          for ( size_t v1 = 0; v1 < patch.getOccupancyResolution(); ++v1 ) {
+            const size_t v = v0 * patch.getOccupancyResolution() + v1;
+            for ( size_t u1 = 0; u1 < patch.getOccupancyResolution(); ++u1 ) {
+              const size_t u = u0 * patch.getOccupancyResolution() + u1;
+              size_t       x;
+              size_t       y;
+              bool         occupancy     = false;
+              size_t       canvasIndex   = patch.patch2Canvas( u, v, tileWidth, tileHeight, x, y );
+              size_t       xInVideoFrame = x + tile.getLeftTopXInFrame();
+              size_t       yInVideoFrame = y + tile.getLeftTopYInFrame();
+              bool         isBoundary    = false;
+              if ( params.pbfEnableFlag_ ) {
+                occupancy = patch.getOccupancyMap( u, v ) != 0;
+                if ( occupancy ) { isBoundary = patch.isBorder( u, v ); }
+              } else {
+                occupancy = occupancyMap[canvasIndex] != 0;
+              }
+              if ( !occupancy ) { continue; }
+              if ( params.enhancedOccupancyMapCode_ ) {
+                // D0
+                PCCPoint3D point0 = patch.generatePoint( u, v, frame0.getValue( 0, xInVideoFrame, yInVideoFrame ) );
+                size_t     pointIndex0;  // = reconstruct.addPoint(point0);
+                if ( patch.getAxisOfAdditionalPlane() == 0 ) {
+                  pointIndex0 = reconstruct.addPoint( point0 );
+                } else {
+                  PCCVector3D tmp;
+                  inverseRotatePosition45DegreeOnAxis( patch.getAxisOfAdditionalPlane(), params.geometryBitDepth3D_,
+                                                       point0, tmp );
+                  pointIndex0 = reconstruct.addPoint( tmp );
+                }
+                reconstruct.setPointPatchIndex( pointIndex0, tileIndex, patchIndex );
+                reconstruct.setColor( pointIndex0, color );
+                if ( PCC_SAVE_POINT_TYPE == 1 ) { reconstruct.setType( pointIndex0, POINT_D0 ); }
+                partition.push_back( uint32_t( patchIndex ) );
+                pointToPixel.emplace_back( x, y, 0 );
+                uint16_t    eomCode = 0;
+                size_t      d1pos   = 0;
+                const auto& frame0  = params.multipleStreams_ ? videoGeometryMultiple[0].getFrame( videoFrameIndex )
+                                                             : videoGeometry.getFrame( videoFrameIndex );
+                const auto& indx = patch.patch2Canvas( u, v, tileWidth, tileHeight, x, y );
+                if ( params.mapCountMinus1_ > 0 ) {
+                  const auto& frame1 = params.multipleStreams_ ? videoGeometryMultiple[1].getFrame( videoFrameIndex )
+                                                               : videoGeometry.getFrame( videoFrameIndex + 1 );
+                  int16_t diff = params.absoluteD1_
+                                     ? ( static_cast<int16_t>( frame1.getValue( 0, xInVideoFrame, yInVideoFrame ) ) -
+                                         static_cast<int16_t>( frame0.getValue( 0, xInVideoFrame, yInVideoFrame ) ) )
+                                     : static_cast<int16_t>( frame1.getValue( 0, xInVideoFrame, yInVideoFrame ) );
+                  assert( diff >= 0 );
+                  // Convert occupancy map to eomCode
+                  if ( diff == 0 ) {
+                    eomCode = 0;
+                  } else if ( diff == 1 ) {
+                    d1pos   = 1;
+                    eomCode = 1;
+                  } else if ( diff > 0 ) {
+                    uint16_t bits = diff - 1;
+                    uint16_t symbol =
+                        ( 1 << bits ) - occupancyMap[patch.patch2Canvas( u, v, tileWidth, tileHeight, x, y )];
+                    eomCode = symbol | ( 1 << bits );
+                    d1pos   = ( bits );
+                  }
+                } else {  // params.mapCountMinus1_ == 0
+                  eomCode = ( 1 << params.EOMFixBitCount_ ) - occupancyMap[indx];
+                }
+                PCCPoint3D point1( point0 );
+                if ( eomCode == 0 ) {
+                  if ( !params.removeDuplicatePoints_ ) {
+                    size_t pointIndex1;  // = reconstruct.addPoint(point1);
+                    if ( patch.getAxisOfAdditionalPlane() == 0 ) {
+                      pointIndex1 = reconstruct.addPoint( point1 );
+                    } else {
+                      PCCVector3D tmp;
+                      inverseRotatePosition45DegreeOnAxis( patch.getAxisOfAdditionalPlane(), params.geometryBitDepth3D_,
+                                                           point1, tmp );
+                      pointIndex1 = reconstruct.addPoint( tmp );
+                    }
+                    reconstruct.setPointPatchIndex( pointIndex1, tileIndex, patchIndex );
+                    reconstruct.setColor( pointIndex1, color );
+                    if ( PCC_SAVE_POINT_TYPE == 1 ) { reconstruct.setType( pointIndex1, POINT_D1 ); }
+                    partition.push_back( uint32_t( patchIndex ) );
+                    pointToPixel.emplace_back( x, y, 1 );
+                  }
+                } else {  // eomCode != 0
+                  uint16_t addedPointCount = 0;
+                  size_t   pointIndex1     = 0;
+                  for ( uint16_t i = 0; i < 10; i++ ) {
+                    if ( ( eomCode & ( 1 << i ) ) != 0 ) { d1pos = i; }
+                  }
+                  for ( uint16_t i = 0; i < 10; i++ ) {
+                    if ( ( eomCode & ( 1 << i ) ) != 0 ) {
+                      uint8_t deltaDCur = ( i + 1 );
+                      if ( patch.getProjectionMode() == 0 ) {
+                        point1[patch.getNormalAxis()] =
+                            static_cast<double>( point0[patch.getNormalAxis()] + deltaDCur );
+                      } else {
+                        point1[patch.getNormalAxis()] =
+                            static_cast<double>( point0[patch.getNormalAxis()] - deltaDCur );
+                      }
+                      if ( ( eomCode == 1 || i == d1pos ) && ( params.mapCountMinus1_ > 0 ) ) {  // d1
+                        if ( patch.getAxisOfAdditionalPlane() == 0 ) {
+                          pointIndex1 = reconstruct.addPoint( point1 );
+                        } else {
+                          PCCVector3D tmp;
+                          inverseRotatePosition45DegreeOnAxis( patch.getAxisOfAdditionalPlane(),
+                                                               params.geometryBitDepth3D_, point1, tmp );
+                          pointIndex1 = reconstruct.addPoint( tmp );
+                        }
+                        reconstruct.setPointPatchIndex( pointIndex1, tileIndex, patchIndex );
+                        reconstruct.setColor( pointIndex1, color );
+                        if ( PCC_SAVE_POINT_TYPE == 1 ) { reconstruct.setType( pointIndex1, POINT_D1 ); }
+                        partition.push_back( uint32_t( patchIndex ) );
+                        pointToPixel.emplace_back( x, y, 1 );
+                      } else {
+                        if ( patch.getAxisOfAdditionalPlane() == 0 ) {
+                          eomPointsPerPatch[patchIndex].push_back( point1 );
+                        } else {
+                          PCCVector3D tmp;
+                          inverseRotatePosition45DegreeOnAxis( patch.getAxisOfAdditionalPlane(),
+                                                               params.geometryBitDepth3D_, point1, tmp );
+                          eomPointsPerPatch[patchIndex].push_back( PCCPoint3D( tmp[0], tmp[1], tmp[2] ) );
+                        }
+                      }
+                      addedPointCount++;
+                    }
+                  }  // for each bit of EOM code
+                  if ( PCC_SAVE_POINT_TYPE == 1 ) { reconstruct.setType( pointIndex1, POINT_D1 ); }
+                  // Without "Identify boundary points" & "1st Extension boundary region" as EOM code is only for
+                  // lossless coding now
+                }       // if (eomCode == 0)
+              } else {  // not params.enhancedOccupancyMapCode_
+                std::vector<PCCPoint3D> createdPoints;
+                if ( params.pointLocalReconstruction_ ) {
+                  auto& mode =
+                      context.getPointLocalReconstructionMode( patch.getPointLocalReconstructionMode( u0, v0 ) );
+                  createdPoints = generatePoints( interpolated_points, params, tile, videoGeometryMultiple,
+                                                  videoFrameIndex, patchIndex, u,
+                                                  v, xInVideoFrame, yInVideoFrame, mode.interpolate_, mode.filling_,
+                                                  mode.minD1_, mode.neighbor_ );
+                } else {
+                  createdPoints = generatePoints( interpolated_points, params, tile, videoGeometryMultiple,
+                                                  videoFrameIndex, patchIndex, u,
+                                                  v, xInVideoFrame, yInVideoFrame );
+                }
+                if ( !createdPoints.empty() ) {
+                  for ( size_t i = 0; i < createdPoints.size(); i++ ) {
+                    if ( ( !params.removeDuplicatePoints_ ) ||
+                         ( ( i == 0 ) || ( createdPoints[i] != createdPoints[0] ) ) ) {
+                      size_t pointindex = 0;
+                      if ( patch.getAxisOfAdditionalPlane() == 0 ) {
+                        pointindex = reconstruct.addPoint( createdPoints[i] );
+                        reconstruct.setPointPatchIndex( pointindex, tileIndex, patchIndex );
+                      } else {
+                        PCCVector3D tmp;
+                        inverseRotatePosition45DegreeOnAxis( patch.getAxisOfAdditionalPlane(),
+                                                             params.geometryBitDepth3D_, createdPoints[i], tmp );
+                        pointindex = reconstruct.addPoint( tmp );
+                        reconstruct.setPointPatchIndex( pointindex, tileIndex, patchIndex );
+                      }
+                      const size_t pointindex_1 = pointindex;
+                      reconstruct.setColor( pointindex_1, color );
+                      if ( params.pbfEnableFlag_ ) { reconstruct.setBoundaryPointType( pointindex_1, isBoundary ); }
+                      if ( PCC_SAVE_POINT_TYPE == 1 ) {
+                        if ( params.singleMapPixelInterleaving_ ) {
+                          size_t flag;
+                          flag = ( i == 0 ) ? ( x + y ) % 2 : ( i == 1 ) ? ( x + y + 1 ) % 2 : g_intermediateLayerIndex;
+                          reconstruct.setType( pointindex_1, flag == 0 ? POINT_D0 : flag == 1 ? POINT_D1 : POINT_DF );
+                        } else {
+                          reconstruct.setType( pointindex_1, i == 0 ? POINT_D0 : i == 1 ? POINT_D1 : POINT_DF );
+                        }
+                      }
+                      partition.push_back( uint32_t( patchIndex ) );
+                      if ( params.singleMapPixelInterleaving_ ) {
+                        pointToPixel.emplace_back(
+                            x, y,
+                            i == 0 ? ( static_cast<size_t>( x + y ) % 2 )
+                                   : i == 1 ? ( static_cast<size_t>( x + y + 1 ) % 2 ) : g_intermediateLayerIndex );
+                      } else if ( params.pointLocalReconstruction_ ) {
+                        pointToPixel.emplace_back(
+                            x, y, i == 0 ? 0 : i == 1 ? g_intermediateLayerIndex : g_intermediateLayerIndex + 1 );
+                      } else {
+                        pointToPixel.emplace_back( x, y, i < 2 ? i : g_intermediateLayerIndex + 1 );
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  tile.setTotalNumberOfRegularPoints( reconstruct.getPointCount() );
+  printf( "frame %zu, tile %zu: regularPoints %zu\n", frameIndex, tileIndex, reconstruct.getPointCount() );
+  patchIndex                         = index;
+  size_t       totalEOMPointsInFrame = 0;
+  PCCPointSet3 eomSavedPoints;
+  if ( params.enhancedOccupancyMapCode_ ) {
+    const size_t blockSize     = params.occupancyResolution_ * params.occupancyResolution_;
+    size_t       numEOMPatches = tile.getEomPatches().size();
+    for ( int j = 0; j < numEOMPatches; j++ ) {
+      auto&  eomPatch               = tile.getEomPatch( j );
+      size_t numPatchesInEOMPatches = eomPatch.memberPatches_.size();
+      size_t u0Eom                  = useRawPointsSeparateVideo ? 0 : eomPatch.u0_ * params.occupancyResolution_;
+      size_t v0Eom                  = useRawPointsSeparateVideo ? 0 : eomPatch.v0_ * params.occupancyResolution_;
+      totalEOMPointsInFrame += eomPatch.eomCount_;
+      size_t totalPointCount = 0;
+      for ( size_t patchIdxInEom = 0; patchIdxInEom < numPatchesInEOMPatches; patchIdxInEom++ ) {
+        size_t memberPatchIdx = ( bDecoder && context.getAtlasSequenceParameterSet( 0 ).getPatchPrecedenceOrderFlag() )
+                                    ? ( totalPatchCount - eomPatch.memberPatches_[patchIdxInEom] - 1 )
+                                    : eomPatch.memberPatches_[patchIdxInEom];
+        size_t numberOfEOMPointsPerPatch = eomPointsPerPatch[memberPatchIdx].size();
+        for ( size_t pointCount = 0; pointCount < numberOfEOMPointsPerPatch; pointCount++ ) {
+          size_t currBlock                 = totalPointCount / blockSize;
+          size_t nPixelInCurrentBlockCount = totalPointCount - currBlock * blockSize;
+          size_t uBlock                    = currBlock % blockToPatchWidth;
+          size_t vBlock                    = currBlock / blockToPatchWidth;
+          size_t uu =
+              uBlock * params.occupancyResolution_ + nPixelInCurrentBlockCount % params.occupancyResolution_ + u0Eom;
+          size_t vv =
+              vBlock * params.occupancyResolution_ + nPixelInCurrentBlockCount / params.occupancyResolution_ + v0Eom;
+          PCCPoint3D point1      = eomPointsPerPatch[memberPatchIdx][pointCount];
+          size_t     pointIndex1 = reconstruct.addPoint( point1 );
+          reconstruct.setPointPatchIndex( pointIndex1, tileIndex, patchIndex );
+          eomSavedPoints.addPoint( point1 );
+
+          // reconstruct.setColor( pointIndex1, color );
+          if ( PCC_SAVE_POINT_TYPE == 1 ) { reconstruct.setType( pointIndex1, POINT_EOM ); }
+          partition.push_back( uint32_t( patchIndex ) );
+          totalPointCount++;
+          pointToPixel.emplace_back( uu, vv, 0 );
+          if ( !params.useAuxSeperateVideo_ ) { occupancyMap[vv * tileWidth + uu] = 1; }  // occupied
+        }
+      }
+      TRACE_CODEC( "%d eomPatch :%zu,%zu\t %zu patches, %zu points\n", j, u0Eom, v0Eom, numPatchesInEOMPatches,
+                   eomPatch.eomCount_ );
+    }
+    tile.setTotalNumberOfEOMPoints( totalEOMPointsInFrame );
+    printf( "frame %zu, tile %zu: regularPoints+eomPoints %zu\n", frameIndex, tileIndex, reconstruct.getPointCount() );
+  } else {
+    tile.setTotalNumberOfEOMPoints( 0 );
+    printf( "frame %zu, tile %zu: regularPoints+eomPoints %zu\n", frameIndex, tileIndex, reconstruct.getPointCount() );
+  }
+  TRACE_CODEC( " totalEOMPointsInFrame = %zu  \n", totalEOMPointsInFrame );
+  TRACE_CODEC( " point = %zu  \n", reconstruct.getPointCount() );
+  if ( params.useAdditionalPointsPatch_ ) {
+    auto& frameRawPoint = useRawPointsSeparateVideo
+                              ? (const PCCImageGeometry&)context.getVideoRawPointsGeometry()[tile.getFrameIndex()]
+                              : frame0;
+    TRACE_CODEC( "%s \n", "Add points from rawPointsPatch" );
+
+    // Add points from rawPointsPatch
+    size_t numberOfRawPointsPatches = tile.getNumberOfRawPointsPatches();
+    for ( int i = 0; i < numberOfRawPointsPatches; i++ ) {
+      auto&      rawPointsPatch = tile.getRawPointsPatch( i );
+      PCCColor3B rawPointsColor( 0, 255, 255 );
+      size_t     numRawPoints = rawPointsPatch.getNumberOfRawPoints();
+      rawPointsPatch.sizeV_   = rawPointsPatch.sizeV0_ * rawPointsPatch.occupancyResolution_;
+      rawPointsPatch.sizeU_   = rawPointsPatch.sizeU0_ * rawPointsPatch.occupancyResolution_;
+      std::vector<PCCPoint3D> rawPoints;
+      rawPoints.resize( numRawPoints );
+      size_t       numRawPointsAdded = 0;
+      const size_t v0                = rawPointsPatch.v0_ * rawPointsPatch.occupancyResolution_;
+      const size_t u0                = rawPointsPatch.u0_ * rawPointsPatch.occupancyResolution_;
+      for ( size_t v = 0; v < rawPointsPatch.sizeV_; ++v ) {
+        for ( size_t u = 0; u < rawPointsPatch.sizeU_; ++u ) {
+          const size_t u1 = tile.getLeftTopXInFrame() + u0 + u;
+          const size_t v1 = tile.getLeftTopYInFrame() + v0 + v;
+          if ( numRawPointsAdded < numRawPoints ) {
+            rawPoints[numRawPointsAdded][0] = double( frameRawPoint.getValue( 0, u1, v1 ) + rawPointsPatch.u1_ );
+          } else if ( numRawPoints <= numRawPointsAdded && numRawPointsAdded < 2 * numRawPoints ) {
+            rawPoints[numRawPointsAdded - numRawPoints][1] =
+                double( frameRawPoint.getValue( 0, u1, v1 ) + rawPointsPatch.v1_ );
+          } else if ( 2 * numRawPoints <= numRawPointsAdded && numRawPointsAdded < 3 * numRawPoints ) {
+            rawPoints[numRawPointsAdded - 2 * numRawPoints][2] =
+                double( frameRawPoint.getValue( 0, u1, v1 ) + rawPointsPatch.d1_ );
+          }
+          numRawPointsAdded++;
+        }  // u
+      }    // v
+      size_t counter = 0;
+      for ( size_t v = 0; v < rawPointsPatch.sizeV_; ++v ) {
+        for ( size_t u = 0; u < rawPointsPatch.sizeU_; ++u ) {
+          if ( counter < numRawPoints ) {
+            const size_t pointIndex = reconstruct.addPoint( rawPoints[counter] );
+            reconstruct.setPointPatchIndex( pointIndex, tileIndex, patchIndex );
+            reconstruct.setColor( pointIndex, rawPointsColor );
+            partition.push_back( uint32_t( patchIndex ) );
+            pointToPixel.emplace_back( u0 + u, v0 + v, 0 );
+            counter++;
+          }
+        }
+      }
+    }
+    printf( "frame %zu, tile %zu: regularPoints+eomPoints+rawPoints %zu\n", frameIndex, tileIndex,
+            reconstruct.getPointCount() );
+  } else {
+    printf( "frame %zu, tile %zu: regularPoints+eomPoints+rawPoints %zu\n", frameIndex, tileIndex,
+            reconstruct.getPointCount() );
+    tile.setTotalNumberOfRawPoints( 0 );
+  }
+  TRACE_CODEC( " totalRawPointsInFrame = %zu  \n", tile.getTotalNumberOfRawPoints() );
+  TRACE_CODEC( " point = %zu  \n", reconstruct.getPointCount() );
+
+  if ( params.flagGeometrySmoothing_ && !params.pbfEnableFlag_ ) {
+    TRACE_CODEC( "%s \n", "identify first boundary layer \n" );
+    if ( useRawPointsSeparateVideo ) {
+      assert( ( reconstruct.getPointCount() - tile.getTotalNumberOfRawPoints() ) == pointToPixel.size() );
+    } else {
+      if ( tile.getPatches().size() == 0 ) {
+        assert( ( tile.getTotalNumberOfRawPoints() ) == pointToPixel.size() );
+      } else {
+        assert( ( reconstruct.getPointCount() + tile.getTotalNumberOfRawPoints() ) == pointToPixel.size() );
+      }
+    }
+    size_t pointCount = reconstruct.getPointCount() - tile.getTotalNumberOfRawPoints();
+    for ( size_t i = 0; i < pointCount; ++i ) {
+      const PCCVector3<size_t> location = pointToPixel[i];
+      const size_t             x        = location[0];
+      const size_t             y        = location[1];
+      if ( occupancyMap[y * tileWidth + x] != 0 ) {
+        identifyBoundaryPoints( occupancyMap, x, y, tileWidth, tileHeight, i, BPflag, reconstruct );
+      }
+    }
+  }
+#ifdef CODEC_TRACE
+  TRACE_CODEC( " generatePointCloud create %zu points \n", reconstruct.getPointCount() );
+  printChecksum( reconstruct, "generatePointCloud Out" );
+#endif
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
 void PCCCodec::generatePointCloud( PCCPointSet3&                       reconstruct,
                                    PCCContext&                         context,
@@ -1305,6 +2014,151 @@ void PCCCodec::smoothPointCloudColorLC( PCCPointSet3&                       reco
   }
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+size_t PCCCodec::colorPointCloud( PCCPointSet3&                       reconstruct,
+                                  PCCContext&                         context,
+                                  PCCFrameContext&                    tile,
+                                  const std::vector<bool>&            absoluteT1List,
+                                  const size_t                        multipleStreams,
+                                  const uint8_t                       attributeCount,
+                                  size_t                              accTilePointCount,
+                                  const GeneratePointCloudParameters& params,
+                                 std::vector<PCCPointSet3>& interpolated_points) {
+  TRACE_CODEC( "%s \n", "colorPointCloud start" );
+
+  if ( reconstruct.getPointCount() == 0 ) { return accTilePointCount; }
+  reconstruct.fillColor();
+
+#ifdef CODEC_TRACE
+  printChecksum( reconstruct, "colorPointCloud in" );
+#endif
+  auto&        videoAttribute       = context.getVideoAttributesMultiple()[0];
+  auto&        videoAttributeFrame1 = context.getVideoAttributesMultiple()[1];
+  const size_t mapCount             = params.mapCountMinus1_ + 1;
+  if ( attributeCount == 0 ) {
+    for ( auto& color : reconstruct.getColors() ) {
+      for ( size_t c = 0; c < 3; ++c ) { color[c] = static_cast<uint8_t>( 127 ); }
+    }
+  } else {
+    auto&  pointToPixel      = tile.getPointToPixel();
+    auto&  color16bit        = reconstruct.getColors16bit();
+    bool   useAuxVideo       = tile.getUseRawPointsSeparateVideo();
+    size_t numOfRawPointGeos = tile.getTotalNumberOfRawPoints();
+    size_t numberOfEOMPoints = tile.getTotalNumberOfEOMPoints();
+    size_t pointCount        = tile.getTotalNumberOfRegularPoints();
+    if ( !useAuxVideo ) { pointCount += numOfRawPointGeos + numberOfEOMPoints; }
+    TRACE_CODEC( "plt.getProfileCodecGroupIdc() = %d \n",
+                 context.getVps().getProfileTierLevel().getProfileCodecGroupIdc() );
+
+    TRACE_CODEC( "vps.getRawPatchEnabledFlag()  = %d \n", context.getVps().getAuxiliaryVideoPresentFlag( 0 ) );
+    TRACE_CODEC( "useAuxVideo                   = %d \n", useAuxVideo );
+    TRACE_CODEC( "numOfRawGeos                  = %zu \n", numOfRawPointGeos );
+    if ( params.enhancedOccupancyMapCode_ ) {
+      TRACE_CODEC( "numberOfRawPointsAndEOMColors = %zu \n", numOfRawPointGeos + numberOfEOMPoints );
+      TRACE_CODEC( "numberOfEOMPoints             = %zu \n", numberOfEOMPoints );
+    }
+    TRACE_CODEC( "pointCount                   = %zu \n", pointCount );
+    TRACE_CODEC( "reconstruct.getPointCount()  = %zu \n", reconstruct.getPointCount() );
+    TRACE_CODEC( "pointToPixel size            = %zu \n", pointToPixel.size() );
+    TRACE_CODEC( "pointLocalReconstruction     = %d \n", params.pointLocalReconstruction_ );
+    TRACE_CODEC( "singleMapPixelInterleaving   = %d \n", params.singleMapPixelInterleaving_ );
+    TRACE_CODEC( "enhancedOccupancyMapCode       = %d \n", params.enhancedOccupancyMapCode_ );
+    TRACE_CODEC( "multipleStreams              = %d \n", multipleStreams );
+    PCCPointSet3        target;
+    PCCPointSet3        source;
+    std::vector<size_t> targetIndex;
+    targetIndex.resize( 0 );
+    target.clear();
+    source.clear();
+    target.addColors16bit();
+    source.addColors16bit();
+    const size_t shift = params.multipleStreams_ ? tile.getFrameIndex() : tile.getFrameIndex() * mapCount;
+    for ( size_t i = accTilePointCount; i < accTilePointCount + pointCount; ++i ) {
+      const PCCVector3<size_t> location = pointToPixel[i - accTilePointCount];
+      const size_t             x        = tile.getLeftTopXInFrame() + location[0];
+      const size_t             y        = tile.getLeftTopYInFrame() + location[1];
+      const size_t             f        = location[2];
+      if ( params.singleMapPixelInterleaving_ ) {
+        if ( ( static_cast<int>( f == 0 && ( x + y ) % 2 == 0 ) | static_cast<int>( f == 1 && ( x + y ) % 2 == 1 ) ) !=
+             0 ) {
+          const auto& image = videoAttribute.getFrame( shift );
+          for ( size_t c = 0; c < 3; ++c ) { color16bit[i][c] = image.getValue( c, x, y ); }
+          int index = source.addPoint( reconstruct[i] );
+          source.setColor16bit( index, color16bit[i] );
+        } else {
+          target.addPoint( reconstruct[i] );
+          targetIndex.push_back( i );
+        }
+      } else if ( multipleStreams != 0U ) {
+        if ( f == 0 ) {
+          const auto& image = videoAttribute.getFrame( tile.getFrameIndex() );
+          for ( size_t c = 0; c < 3; ++c ) { color16bit[i][c] = image.getValue( c, x, y ); }
+          size_t index = source.addPoint( reconstruct[i] );
+          source.setColor16bit( index, color16bit[i] );
+        } else {
+          const auto& image0   = videoAttribute.getFrame( tile.getFrameIndex() );
+          const auto& image1   = videoAttributeFrame1.getFrame( tile.getFrameIndex() );
+          uint8_t     numBits  = image0.getDeprecatedColorFormat() == 0 ? 8 : 16;  // or 8
+          double      offset   = ( 1 << ( numBits - 1 ) );
+          double      maxValue = ( 1 << numBits ) - 1;
+          for ( size_t c = 0; c < 3; ++c ) {
+            // reconstruction
+            auto value0 = static_cast<uint16_t>( image0.getValue( c, x, y ) );
+            auto value1 = static_cast<uint16_t>( image1.getValue( c, x, y ) );
+            if ( !absoluteT1List[f] ) {
+              int32_t newValue = value1;
+              newValue -= offset;
+              // clipping the delta value
+              if ( newValue < -offset ) {
+                newValue = -offset;
+              } else if ( newValue > offset - 1 ) {
+                newValue = offset - 1;
+              }
+              newValue += value0;  // add value0
+              color16bit[i][c] =
+                  newValue < 0 ? 0 : ( newValue > maxValue ? maxValue : static_cast<uint16_t>( newValue ) );
+              // clipping to the unsigned 16 bit range
+            } else {
+              color16bit[i][c] = value1;
+            }
+          }
+          size_t index = source.addPoint( reconstruct[i] );
+          source.setColor16bit( index, color16bit[i] );
+        }
+      } else {
+        if ( f < mapCount ) {
+          const auto& frame = videoAttribute.getFrame( shift + f );
+          for ( size_t c = 0; c < 3; ++c ) { color16bit[i][c] = frame.getValue( c, x, y ); }
+          int index = source.addPoint( reconstruct[i] );
+          source.setColor16bit( index, color16bit[i] );
+        } else {
+          target.addPoint( reconstruct[i] );
+          targetIndex.push_back( i );
+        }
+      }
+    }  // i < accTilePointCount+ pointCount;
+    if ( target.getPointCount() > 0 ) {
+      source.transferColorWeight( target );
+      for ( size_t i = 0; i < target.getPointCount(); ++i ) {
+        reconstruct.setColor16bit( targetIndex[i], target.getColor16bit( i ) );
+      }
+    }
+
+    if ( useAuxVideo ) {
+      for ( const auto& color : tile.getEOMAttribute() ) { color16bit[pointCount++] = color; }
+      for ( const auto& color : tile.getRawPointsAttribute() ) { color16bit[pointCount++] = color; }
+    }
+  }  // noAtt
+
+#ifdef CODEC_TRACE
+  printChecksum( reconstruct, "colorPointCloud out" );
+  TRACE_CODEC( "%s \n", "colorPointCloud done" );
+#endif
+
+  return accTilePointCount + tile.getTotalNumberOfRegularPoints() + tile.getTotalNumberOfEOMPoints() +
+         tile.getTotalNumberOfRawPoints();
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 size_t PCCCodec::colorPointCloud( PCCPointSet3&                       reconstruct,
                                   PCCContext&                         context,
                                   PCCFrameContext&                    tile,

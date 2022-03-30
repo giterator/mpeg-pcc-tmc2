@@ -348,7 +348,14 @@ int PCCDecoder::decode( PCCContext& context, PCCGroupOfFrames& reconstructs, int
 
       printf( "call generatePointCloud() \n" );
       PCCPointSet3 tileReconstrct;
-      generatePointCloud( tileReconstrct, context, frameIdx, tileIdx, gpcParams, partition, true );
+      //////////////////////////////////////////////////////////////////////////////////////
+      vector<PCCPointSet3> interpolated_points;
+      //interpolated_points.resize( tileReconstrct.getPointCount() );
+
+      generatePointCloud( tileReconstrct, context, frameIdx, tileIdx, gpcParams, partition, true, interpolated_points );
+      //////////////////////////////////////////////////////////////////////////////////////
+      //generatePointCloud( tileReconstrct, context, frameIdx, tileIdx, gpcParams, partition, true );
+
       reconstruct.appendPointSet( tileReconstrct );
       if ( context[frameIdx].getNumTilesInAtlasFrame() > 1 )
         context[frameIdx].getTitleFrameContext().appendPointToPixel(
@@ -359,9 +366,15 @@ int PCCDecoder::decode( PCCContext& context, PCCGroupOfFrames& reconstructs, int
         for ( size_t attIdx = 0; attIdx < ai.getAttributeCount(); attIdx++ ) {
           printf( "start colorPointCloud attIdx = %zu / %u ] \n", attIdx, ai.getAttributeCount() );
           fflush( stdout );
+          /*size_t updatedPointCount  = colorPointCloud( reconstruct, context, tile, absoluteT1List[attIdx],
+                                                      sps.getMultipleMapStreamsPresentFlag( atlasIndex ),
+                                                      ai.getAttributeCount(), accTilePointCount[attIdx], gpcParams );*/
+          //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
           size_t updatedPointCount  = colorPointCloud( reconstruct, context, tile, absoluteT1List[attIdx],
                                                       sps.getMultipleMapStreamsPresentFlag( atlasIndex ),
-                                                      ai.getAttributeCount(), accTilePointCount[attIdx], gpcParams );
+                                                      ai.getAttributeCount(), accTilePointCount[attIdx], gpcParams, interpolated_points );
+          for (PCCPointSet3 set : interpolated_points) {reconstruct.appendPointSet(set);}
+          //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
           accTilePointCount[attIdx] = updatedPointCount;
         }
       }
