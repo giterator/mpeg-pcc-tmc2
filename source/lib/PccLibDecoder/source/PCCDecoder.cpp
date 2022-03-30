@@ -353,6 +353,10 @@ int PCCDecoder::decode( PCCContext& context, PCCGroupOfFrames& reconstructs, int
       //interpolated_points.resize( tileReconstrct.getPointCount() );
 
       generatePointCloud( tileReconstrct, context, frameIdx, tileIdx, gpcParams, partition, true, interpolated_points );
+      ///////////////////////////////////////////////////////////////
+      std::cout << "\n no. of interpolated points: " << interpolated_points.getPointCount() << std::endl;
+      ///////////////////////////////////////////////////////////////
+
       //////////////////////////////////////////////////////////////////////////////////////
       //generatePointCloud( tileReconstrct, context, frameIdx, tileIdx, gpcParams, partition, true );
 
@@ -372,10 +376,10 @@ int PCCDecoder::decode( PCCContext& context, PCCGroupOfFrames& reconstructs, int
           //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
           size_t updatedPointCount  = colorPointCloud( reconstruct, context, tile, absoluteT1List[attIdx],
                                                       sps.getMultipleMapStreamsPresentFlag( atlasIndex ),
-                                                      ai.getAttributeCount(), accTilePointCount[attIdx], gpcParams, interpolated_points );
+                                                      ai.getAttributeCount(), accTilePointCount[attIdx], gpcParams, interpolated_points, params_.int2DD);
 
           //INPUT PARAM FLAG::
-          if ( params_.int2DD ) { reconstruct.appendPointSet( interpolated_points ); }
+          //if ( params_.int2DD ) { reconstruct.appendPointSet( interpolated_points ); }
 
           //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
           accTilePointCount[attIdx] = updatedPointCount;

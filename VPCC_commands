@@ -89,7 +89,7 @@ Vanilla:
     --colorTransform=0 \
     --keepIntermediateFiles \
     --startFrameNumber=1051 \
-    --frameCount=50 \
+    --frameCount=1 \
     --computeChecksum=0 \
     --computeMetrics=0 \
     --reconstructedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/reconstructed/2DD/2DD_rec_%04d.ply \

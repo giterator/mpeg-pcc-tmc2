@@ -183,7 +183,8 @@ class PCCCodec {
                           const uint8_t                       attributeCount,
                           size_t                              accTilePointCount,
                           const GeneratePointCloudParameters& params ,
-                          PCCPointSet3&          interpolated_points );
+                          PCCPointSet3&          interpolated_points,
+                             bool int2DD);
   ///////////////////////////////////////////////////////////////////////////////////
 
   size_t colorPointCloud( PCCPointSet3&                       reconstruct,

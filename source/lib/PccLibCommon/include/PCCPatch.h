@@ -198,6 +198,16 @@ class PCCPatch {
 
   void setViewId( size_t viewId );
 
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////// USELESS OVERLOAD
+  /*PCCPoint3D generatePointLod1( const size_t u, const size_t v, const uint16_t depth ) const {
+    PCCPoint3D point0;
+    point0[normalAxis_]    = generateNormalCoordinate( depth );
+    point0[tangentAxis_]   = ( double( u ) * (double)1 + u1_ );
+    point0[bitangentAxis_] = ( double( v ) * (double)1 + v1_ );
+    return point0;
+  }*/
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   PCCPoint3D generatePoint( const size_t u, const size_t v, const uint16_t depth ) const {
     PCCPoint3D point0;
     point0[normalAxis_]    = generateNormalCoordinate( depth );

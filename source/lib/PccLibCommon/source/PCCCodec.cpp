@@ -535,8 +535,8 @@ std::vector<PCCPoint3D> PCCCodec::generatePoints(PCCPointSet3& interpolated_poin
 
   const auto&             patch  = tile.getPatch( patchIndex );
 
-  int                     lodX   = patch.getLodScaleX();
-  int                     lodY   = patch.getLodScaleY();
+  int     lodX          = patch.getLodScaleX();
+  int lodY          = patch.getLodScaleY();
   int interpolate_x                  = lodX - 1;
   int interpolate_y = lodY - 1;
 
@@ -554,14 +554,17 @@ std::vector<PCCPoint3D> PCCCodec::generatePoints(PCCPointSet3& interpolated_poin
     // interpolate along x axis
     //interpolated_points.resize( interpolated_points.size() + 1 );
     for ( int i = 1; i <= interpolate_x; i++ ) {
-      interpolated_points.addPoint( patch.generatePoint( u + i, v, frame0.getValue( 0, x, y ) ) );
+        PCCPoint3D temp = point0;
+      temp[0] += i;
+      interpolated_points.addPoint( temp );
     }
 
     //interpolate along y axis
     //interpolated_points.resize( interpolated_points.size() + 1 );
     for ( int i = 1; i <= interpolate_y; i++ ) {
-      interpolated_points.addPoint(
-          patch.generatePoint( u, v + i, frame0.getValue( 0, x, y ) ) );
+      PCCPoint3D temp = point0;
+      temp[1] += i;
+      interpolated_points.addPoint( temp );
     }
     ///////////////////////////////////////////
 
@@ -734,21 +737,24 @@ std::vector<PCCPoint3D> PCCCodec::generatePoints(PCCPointSet3& interpolated_poin
       // interpolate along x axis
       //interpolated_points.resize( interpolated_points.size() + 1 );
       for ( int i = 1; i <= interpolate_x; i++ ) {
-        interpolated_points.addPoint(
-            patch.generatePoint( u + i, v, frame1.getValue( 0, x, y ) ) );
+         PCCPoint3D temp = point1;
+      temp[0] += i;
+      interpolated_points.addPoint( temp );
       }
 
       // interpolate along y axis
       //interpolated_points.resize( interpolated_points.size() + 1 );
       for ( int i = 1; i <= interpolate_y; i++ ) {
-        interpolated_points.addPoint(
-            patch.generatePoint( u, v + i, frame1.getValue( 0, x, y ) ) );
+        PCCPoint3D temp = point1;
+        temp[1] += i;
+        interpolated_points.addPoint( temp );
       }
       ///////////////////////////////////////////
 
 
     }  // if ( params.mapCountMinus1_ > 0 ) {
   }    // fi (pointLocalReconstruction)
+
   return createdPoints;
 }
 
@@ -2023,7 +2029,8 @@ size_t PCCCodec::colorPointCloud( PCCPointSet3&                       reconstruc
                                   const uint8_t                       attributeCount,
                                   size_t                              accTilePointCount,
                                   const GeneratePointCloudParameters& params,
-                                 PCCPointSet3& interpolated_points) {
+                                 PCCPointSet3&                        interpolated_points,
+                                 bool int2DD) {
   TRACE_CODEC( "%s \n", "colorPointCloud start" );
 
   if ( reconstruct.getPointCount() == 0 ) { return accTilePointCount; }
@@ -2035,6 +2042,10 @@ size_t PCCCodec::colorPointCloud( PCCPointSet3&                       reconstruc
   auto&        videoAttribute       = context.getVideoAttributesMultiple()[0];
   auto&        videoAttributeFrame1 = context.getVideoAttributesMultiple()[1];
   const size_t mapCount             = params.mapCountMinus1_ + 1;
+
+  PCCPointSet3 source;
+
+
   if ( attributeCount == 0 ) {
     for ( auto& color : reconstruct.getColors() ) {
       for ( size_t c = 0; c < 3; ++c ) { color[c] = static_cast<uint8_t>( 127 ); }
@@ -2065,7 +2076,7 @@ size_t PCCCodec::colorPointCloud( PCCPointSet3&                       reconstruc
     TRACE_CODEC( "enhancedOccupancyMapCode       = %d \n", params.enhancedOccupancyMapCode_ );
     TRACE_CODEC( "multipleStreams              = %d \n", multipleStreams );
     PCCPointSet3        target;
-    PCCPointSet3        source;
+    //PCCPointSet3        source;
     std::vector<size_t> targetIndex;
     targetIndex.resize( 0 );
     target.clear();
@@ -2138,12 +2149,33 @@ size_t PCCCodec::colorPointCloud( PCCPointSet3&                       reconstruc
       }
     }  // i < accTilePointCount+ pointCount;
     if ( target.getPointCount() > 0 ) {
-      source.transferColorWeight( target );
-      for ( size_t i = 0; i < target.getPointCount(); ++i ) {
+
+      int target_point_count = target.getPointCount();
+
+      /*if ( int2DD ) { 
+          interpolated_points.addColors16bit();
+          target.appendPointSet( interpolated_points ); 
+      }*/
+
+        source.transferColorWeight( target );
+
+      for ( size_t i = 0; i < target_point_count; ++i ) {  // target.getPointCount()
         reconstruct.setColor16bit( targetIndex[i], target.getColor16bit( i ) );
       }
       //////////////////////////////////////////////////////////////////
-      source.transferColorWeight( interpolated_points );
+      //reconstruct.appendPointSet( interpolated_points );
+      /*if ( int2DD ) {
+        for ( int i = 0; i < interpolated_points.getPointCount(); i++ ) {
+          reconstruct.addPoint( target.getPositions()[target_point_count + i], PCCColor16bit( 65530, 0, 0) );
+                                //target.getColor16bit( target_point_count + i ) );
+        }
+      }*/
+
+      //interpolated_points.addColors16bit();
+      //source.transferColorWeight( interpolated_points );
+
+      // INPUT PARAM FLAG::
+      //if ( int2DD ) { reconstruct.appendPointSet( interpolated_points ); }
       //////////////////////////////////////////////////////////////////
     }
 
@@ -2157,6 +2189,14 @@ size_t PCCCodec::colorPointCloud( PCCPointSet3&                       reconstruc
   printChecksum( reconstruct, "colorPointCloud out" );
   TRACE_CODEC( "%s \n", "colorPointCloud done" );
 #endif
+
+
+  if ( int2DD ) { 
+      interpolated_points.addColors16bit();
+      source.transferColorWeight( interpolated_points );
+      reconstruct.appendPointSet( interpolated_points ); 
+  }
+
 
   return accTilePointCount + tile.getTotalNumberOfRegularPoints() + tile.getTotalNumberOfEOMPoints() +
          tile.getTotalNumberOfRawPoints();
