@@ -518,7 +518,7 @@ std::vector<PCCPoint3D> PCCCodec::generatePoints( const GeneratePointCloudParame
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-std::vector<PCCPoint3D> PCCCodec::generatePoints(std::vector<PCCPointSet3>& interpolated_points,
+std::vector<PCCPoint3D> PCCCodec::generatePoints(PCCPointSet3& interpolated_points,
                                                   const GeneratePointCloudParameters&    params,
                                                   PCCFrameContext&                     tile,
                                                   const std::vector<PCCVideoGeometry>& videoGeometryMultiple,
@@ -552,15 +552,15 @@ std::vector<PCCPoint3D> PCCCodec::generatePoints(std::vector<PCCPointSet3>& inte
 
     /////////interpolate near points/////////
     // interpolate along x axis
-    interpolated_points.resize( interpolated_points.size() + 1 );
+    //interpolated_points.resize( interpolated_points.size() + 1 );
     for ( int i = 1; i <= interpolate_x; i++ ) {
-      interpolated_points[interpolated_points.size() - 1].addPoint( patch.generatePoint( u + i, v, frame0.getValue( 0, x, y ) ) );
+      interpolated_points.addPoint( patch.generatePoint( u + i, v, frame0.getValue( 0, x, y ) ) );
     }
 
     //interpolate along y axis
-    interpolated_points.resize( interpolated_points.size() + 1 );
+    //interpolated_points.resize( interpolated_points.size() + 1 );
     for ( int i = 1; i <= interpolate_y; i++ ) {
-      interpolated_points[interpolated_points.size() - 1].addPoint(
+      interpolated_points.addPoint(
           patch.generatePoint( u, v + i, frame0.getValue( 0, x, y ) ) );
     }
     ///////////////////////////////////////////
@@ -732,16 +732,16 @@ std::vector<PCCPoint3D> PCCCodec::generatePoints(std::vector<PCCPointSet3>& inte
 
       /////////interpolate far points/////////
       // interpolate along x axis
-      interpolated_points.resize( interpolated_points.size() + 1 );
+      //interpolated_points.resize( interpolated_points.size() + 1 );
       for ( int i = 1; i <= interpolate_x; i++ ) {
-        interpolated_points[interpolated_points.size() - 1].addPoint(
+        interpolated_points.addPoint(
             patch.generatePoint( u + i, v, frame1.getValue( 0, x, y ) ) );
       }
 
       // interpolate along y axis
-      interpolated_points.resize( interpolated_points.size() + 1 );
+      //interpolated_points.resize( interpolated_points.size() + 1 );
       for ( int i = 1; i <= interpolate_y; i++ ) {
-        interpolated_points[interpolated_points.size() - 1].addPoint(
+        interpolated_points.addPoint(
             patch.generatePoint( u, v + i, frame1.getValue( 0, x, y ) ) );
       }
       ///////////////////////////////////////////
@@ -760,7 +760,7 @@ void PCCCodec::generatePointCloud( PCCPointSet3&                       reconstru
                                    const GeneratePointCloudParameters& params,
                                    std::vector<uint32_t>&              partition,
                                    bool                                bDecoder,
-                                   std::vector<PCCPointSet3>& interpolated_points) {
+                                   PCCPointSet3& interpolated_points) {
   TRACE_CODEC( "generatePointCloud F = %zu start \n", frameIndex );
   auto&        tile                  = context[frameIndex].getTile( tileIndex );
   auto&        videoGeometry         = context.getVideoGeometryMultiple()[0];
@@ -2023,7 +2023,7 @@ size_t PCCCodec::colorPointCloud( PCCPointSet3&                       reconstruc
                                   const uint8_t                       attributeCount,
                                   size_t                              accTilePointCount,
                                   const GeneratePointCloudParameters& params,
-                                 std::vector<PCCPointSet3>& interpolated_points) {
+                                 PCCPointSet3& interpolated_points) {
   TRACE_CODEC( "%s \n", "colorPointCloud start" );
 
   if ( reconstruct.getPointCount() == 0 ) { return accTilePointCount; }
@@ -2142,6 +2142,9 @@ size_t PCCCodec::colorPointCloud( PCCPointSet3&                       reconstruc
       for ( size_t i = 0; i < target.getPointCount(); ++i ) {
         reconstruct.setColor16bit( targetIndex[i], target.getColor16bit( i ) );
       }
+      //////////////////////////////////////////////////////////////////
+      source.transferColorWeight( interpolated_points );
+      //////////////////////////////////////////////////////////////////
     }
 
     if ( useAuxVideo ) {

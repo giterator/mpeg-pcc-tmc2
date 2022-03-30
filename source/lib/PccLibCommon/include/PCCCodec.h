@@ -174,7 +174,7 @@ class PCCCodec {
                            const GeneratePointCloudParameters& params,
                            std::vector<uint32_t>&              partition,
                            bool                                bDecoder,
-                           std::vector<PCCPointSet3>& interpolated_points);
+                           PCCPointSet3& interpolated_points);
   size_t colorPointCloud( PCCPointSet3&                       reconstruct,
                           PCCContext&                         context,
                           PCCFrameContext&                    tile,
@@ -183,7 +183,7 @@ class PCCCodec {
                           const uint8_t                       attributeCount,
                           size_t                              accTilePointCount,
                           const GeneratePointCloudParameters& params ,
-                          std::vector<PCCPointSet3>&          interpolated_points );
+                          PCCPointSet3&          interpolated_points );
   ///////////////////////////////////////////////////////////////////////////////////
 
   size_t colorPointCloud( PCCPointSet3&                       reconstruct,
@@ -275,7 +275,7 @@ class PCCCodec {
                                           const size_t                         neighbor    = 0 );
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  std::vector<PCCPoint3D> generatePoints( std::vector<PCCPointSet3>& interpolated_points,
+  std::vector<PCCPoint3D> generatePoints( PCCPointSet3& interpolated_points,
                                           const GeneratePointCloudParameters&    params,
                                           PCCFrameContext&                     tile,
                                           const std::vector<PCCVideoGeometry>& videoMultiple,

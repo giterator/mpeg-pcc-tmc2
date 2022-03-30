@@ -170,6 +170,11 @@ bool parseParameters( int                       argc,
       decoderParams.upscalePC, 
       decoderParams.upscalePC,
       "Factor by which to upscale reconstructed PC geometry")
+
+      ( "int2DD", 
+      decoderParams.int2DD, 
+      decoderParams.int2DD,
+      "Flag to interpolate 2DD")
         ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // visual quality

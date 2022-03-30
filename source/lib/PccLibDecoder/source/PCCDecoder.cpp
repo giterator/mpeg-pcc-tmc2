@@ -349,7 +349,7 @@ int PCCDecoder::decode( PCCContext& context, PCCGroupOfFrames& reconstructs, int
       printf( "call generatePointCloud() \n" );
       PCCPointSet3 tileReconstrct;
       //////////////////////////////////////////////////////////////////////////////////////
-      vector<PCCPointSet3> interpolated_points;
+      PCCPointSet3 interpolated_points;
       //interpolated_points.resize( tileReconstrct.getPointCount() );
 
       generatePointCloud( tileReconstrct, context, frameIdx, tileIdx, gpcParams, partition, true, interpolated_points );
@@ -373,7 +373,10 @@ int PCCDecoder::decode( PCCContext& context, PCCGroupOfFrames& reconstructs, int
           size_t updatedPointCount  = colorPointCloud( reconstruct, context, tile, absoluteT1List[attIdx],
                                                       sps.getMultipleMapStreamsPresentFlag( atlasIndex ),
                                                       ai.getAttributeCount(), accTilePointCount[attIdx], gpcParams, interpolated_points );
-          for (PCCPointSet3 set : interpolated_points) {reconstruct.appendPointSet(set);}
+
+          //INPUT PARAM FLAG::
+          if ( params_.int2DD ) { reconstruct.appendPointSet( interpolated_points ); }
+
           //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
           accTilePointCount[attIdx] = updatedPointCount;
         }
