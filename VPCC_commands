@@ -49,13 +49,15 @@ Vanilla:
     --configurationFolder=cfg/ \
     --config=cfg/common/ctc-common.cfg \
     --config=cfg/condition/ctc-all-intra.cfg \
-    --config=cfg/rate/ctc-r3.cfg \
+    --config=cfg/rate/ctc-r1.cfg \
+    --geometryQP=40\
+    --attributeQP=52\
     --nbThread=40 \
     --uncompressedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/dynamic_pc_data/longdress/Ply/longdress_vox10_%04d.ply \
     --colorTransform=0 \
     --keepIntermediateFiles \
     --startFrameNumber=1051 \
-    --frameCount=50 \
+    --frameCount=1 \
     --computeChecksum=0 \
     --computeMetrics=0 \
     --reconstructedDataPath=/mnt/d/NUS/Volumetric_Video_Streaming_UROP/test_data/reconstructed/vanilla/vanilla_rec_%04d.ply \

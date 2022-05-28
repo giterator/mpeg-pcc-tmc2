@@ -45,7 +45,7 @@ void upscale_pc( PCCPointSet3& reconstruct, int upscale_factor ) {
 
   if (upscale_factor > 1) {
       //perform 3D interpolation
-    double neighbour_radius = upscale_factor * 2.0 * 9.0; // 9.0 is maxAllowedDist2RawPointsDetection_ in encoding using ctc-common config
+    double neighbour_radius = pow(upscale_factor, 2.0) * 9.0; // 9.0 is maxAllowedDist2RawPointsDetection_ in encoding using ctc-common config
 
     auto kd_tree = PCCKdTree( reconstruct );
     std::map<int, std::map<int, std::map<int, std::vector<size_t>>>> map;
@@ -73,23 +73,23 @@ void upscale_pc( PCCPointSet3& reconstruct, int upscale_factor ) {
               map[x_n][y_n][z_n].push_back( index );
               auto np = reconstruct[index] - reconstruct[i];  // PCCPoint3D(x_n - x, y_n - y, z_n - z);
 
-              for (int k = 1; k <= (2 * upscale_factor) - 1; k++) {
+              for ( int k = 1; k <= pow( upscale_factor, 2.0 ) -1; k++) {
                   //geometry & colour of interpolated points
-                  double     geom_x   = (double)x + ( (double)np[0] * (double)k / ( 2.0 * upscale_factor ) );
-                  double     geom_y   = (double)y + ( (double)np[1] * (double)k / ( 2.0 * upscale_factor ) );
-                  double     geom_z   = (double)z + ( (double)np[2] * (double)k / ( 2.0 * upscale_factor ) );
+                  double geom_x = (double)x + ( (double)np[0] * (double)k / pow( upscale_factor, 2.0 ) );
+                  double geom_y = (double)y + ( (double)np[1] * (double)k / pow( upscale_factor, 2.0 ) );
+                  double geom_z = (double)z + ( (double)np[2] * (double)k / pow( upscale_factor, 2.0 ) );
 
                   PCCPoint3D geometry = PCCPoint3D(geom_x, geom_y, geom_z );   // reconstruct[i] + (np * (double)k / ( 2.0 * upscale_factor ));
 
                   PCCColor3B col_point = reconstruct.getColor(i);
                   PCCColor3B col_neighbour = reconstruct.getColor( index );
 
-                  double pi_dist = dist * (double)k / ( 2.0 * upscale_factor );
+                  double pi_dist = dist * (double)k / ( pow( upscale_factor, 2.0 ) );
                   double ni_dist = dist - pi_dist;
 
-                  double col_r = ( col_point[0] * pi_dist + col_neighbour[0] * ni_dist ) * ( 1 / dist );
-                  double col_g = ( col_point[1] * pi_dist + col_neighbour[1] * ni_dist ) * ( 1 / dist );
-                  double col_b = ( col_point[2] * pi_dist + col_neighbour[2] * ni_dist ) * ( 1 / dist );
+                  double col_r = ( col_point[0] * ni_dist + col_neighbour[0] * pi_dist ) * ( 1 / dist );
+                  double col_g = ( col_point[1] * ni_dist + col_neighbour[1] * pi_dist ) * ( 1 / dist );
+                  double col_b = ( col_point[2] * ni_dist + col_neighbour[2] * pi_dist ) * ( 1 / dist );
                   PCCColor3B colour = PCCColor3B( col_r, col_g, col_b ); //PCCColor3B colour = (col_point * pi_dist + col_neighbour * ni_dist) * ( 1 / dist );
 
                   interpolated.addPoint( geometry, colour );
