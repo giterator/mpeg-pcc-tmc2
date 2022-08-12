@@ -22,6 +22,14 @@ void upscale_pcs( PCCGroupOfFrames& reconstructs, int frameCount, int upscale_fa
 }
 
 
+bool contains( vector<size_t>& past_neighbours, int index ) {
+  for ( auto i : past_neighbours ) {
+    if ( i == index ) return true;
+  }
+
+  return false;
+}
+
 void upscale_pc( PCCPointSet3& reconstruct, int upscale_factor ) {
   //rescale geometry
   for ( int i = 0; i < reconstruct.getPointCount(); i++ ) { reconstruct[i] *= upscale_factor; }
@@ -56,7 +64,7 @@ void upscale_pc( PCCPointSet3& reconstruct, int upscale_factor ) {
         int x = reconstruct[i][0];
         int y = reconstruct[i][1];
         int z = reconstruct[i][2];
-        map[x][y][z].push_back( i );
+        //map[x][y][z].push_back( i );
 
         PCCNNResult neighbours;
         kd_tree.searchRadius( reconstruct[i], INT_MAX, neighbour_radius, neighbours );
@@ -69,8 +77,11 @@ void upscale_pc( PCCPointSet3& reconstruct, int upscale_factor ) {
           int y_n     = reconstruct[index][1];
           int z_n     = reconstruct[index][2];
 
-          if ( map[x_n][y_n][z_n].size() == 0 ) { 
-              map[x_n][y_n][z_n].push_back( index );
+          if ( !contains( map[x][y][z], index) ) {  // map[x_n][y_n][z_n].size() == 0
+              //map[x_n][y_n][z_n].push_back( index );
+
+              map[x_n][y_n][z_n].push_back( i );
+              map[x][y][z].push_back( index );
               auto np = reconstruct[index] - reconstruct[i];  // PCCPoint3D(x_n - x, y_n - y, z_n - z);
 
               for ( int k = 1; k <= pow( upscale_factor, 2.0 ) -1; k++) {

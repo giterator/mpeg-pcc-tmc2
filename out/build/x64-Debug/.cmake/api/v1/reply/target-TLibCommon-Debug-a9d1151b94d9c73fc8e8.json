@@ -1,0 +1,603 @@
+{
+	"archive" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "/machine:x64",
+				"role" : "flags"
+			}
+		]
+	},
+	"artifacts" : 
+	[
+		{
+			"path" : "C:/Users/prana/Documents/GitHub/mpeg-pcc-tmc2/lib/TLibCommon.lib"
+		}
+	],
+	"backtrace" : 5,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"_add_library",
+			"add_library",
+			"add_hm_library",
+			"INCLUDE",
+			"target_link_libraries",
+			"target_compile_definitions",
+			"target_include_directories",
+			"target_compile_features"
+		],
+		"files" : 
+		[
+			"C:/Users/prana/Documents/dev/vcpkg/scripts/buildsystems/vcpkg.cmake",
+			"dependencies/cmake/hm.cmake",
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 2
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 60,
+				"parent" : 0
+			},
+			{
+				"file" : 1,
+				"parent" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 47,
+				"parent" : 2
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 38,
+				"parent" : 3
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 378,
+				"parent" : 4
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 48,
+				"parent" : 2
+			},
+			{
+				"command" : 5,
+				"file" : 1,
+				"line" : 51,
+				"parent" : 2
+			},
+			{
+				"command" : 6,
+				"file" : 1,
+				"line" : 50,
+				"parent" : 2
+			},
+			{
+				"command" : 7,
+				"file" : 1,
+				"line" : 49,
+				"parent" : 2
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd   /wd4244 /wd4267 /wd4996"
+				},
+				{
+					"fragment" : "-std:c++14"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 7,
+					"define" : "_CRT_SECURE_NO_WARNINGS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 8,
+					"path" : "C:/Users/prana/Documents/GitHub/mpeg-pcc-tmc2/dependencies/HM-16.20+SCM-8.8/source/Lib"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					9
+				],
+				"standard" : "14"
+			},
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25,
+				26
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 6,
+			"id" : "libmd5::@6890427a1f51a3e7e1df"
+		}
+	],
+	"id" : "TLibCommon::@6890427a1f51a3e7e1df",
+	"name" : "TLibCommon",
+	"nameOnDisk" : "TLibCommon.lib",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25,
+				26
+			]
+		},
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				27,
+				28,
+				29,
+				30,
+				31,
+				32,
+				33,
+				34,
+				35,
+				36,
+				37,
+				38,
+				39,
+				40,
+				41,
+				42,
+				43,
+				44,
+				45,
+				46,
+				47,
+				48,
+				49,
+				50,
+				51,
+				52,
+				53,
+				54,
+				55,
+				56,
+				57,
+				58,
+				59,
+				60,
+				61,
+				62
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/ContextModel.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/ContextModel3DBuffer.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/Debug.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/SEI.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComBitStream.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComCABACTables.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComChromaFormat.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComDataCU.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComHash.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComInterpolationFilter.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComLoopFilter.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComMotionInfo.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComPattern.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComPic.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComPicSym.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComPicYuv.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComPicYuvMD5.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComPrediction.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComRdCost.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComRdCostWeightPrediction.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComRom.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComSampleAdaptiveOffset.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComSlice.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComTU.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComTrQuant.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComWeightPrediction.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 0,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComYuv.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/AccessUnit.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/CommonDef.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/ContextModel.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/ContextModel3DBuffer.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/ContextTables.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/Debug.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/NAL.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/SEI.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComBitCounter.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComBitStream.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComCABACTables.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComChromaFormat.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComCodingStatistics.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComDataCU.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComHash.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComInterpolationFilter.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComList.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComLoopFilter.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComMotionInfo.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComMv.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComPattern.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComPic.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComPicSym.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComPicYuv.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComPrediction.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComRdCost.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComRdCostWeightPrediction.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComRectangle.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComRom.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComSampleAdaptiveOffset.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComSlice.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComTU.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComTrQuant.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComWeightPrediction.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TComYuv.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 5,
+			"path" : "dependencies/HM-16.20+SCM-8.8/source/Lib/TLibCommon/TypeDef.h",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "STATIC_LIBRARY"
+}
