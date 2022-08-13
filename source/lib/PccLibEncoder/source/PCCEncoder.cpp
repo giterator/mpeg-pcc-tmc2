@@ -115,7 +115,8 @@ int PCCEncoder::encode( PCCGroupOfFrames& sources, PCCContext& context, PCCGroup
   }
   
   //Downscale geometry of PC ; Colours remain the same
-  downscale_pc( sources, context.getFrames().size(), params_.downscalePC);
+  if ( params_.downscalePC > 1 ) { downscale_pc( sources, context.getFrames().size(), params_.downscalePC ); }
+  
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Segmentation

@@ -15,9 +15,9 @@ void downscale_pc( PCCGroupOfFrames& sources, int frameCount, int downscale_fact
       float exact_y = coors[j][1] / (float)downscale_factor;
       float exact_z = coors[j][2] / (float)downscale_factor;
 
-      coors[j][0] = round(exact_x);
-      coors[j][1] = round( exact_y );
-      coors[j][2] = round( exact_z );
+      coors[j][0] = (int)round(exact_x);
+      coors[j][1] = (int)round( exact_y );
+      coors[j][2] = (int)round( exact_z );
 
       sources[i].addPoint( coors[j], cols[j] );
     }
